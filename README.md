@@ -1,12 +1,12 @@
 ##  TERSE/PROLIX C++ Fast and Efficient diffraction data compressor
 
 
-The objective of this project is to develop an *efficient compression* technique for *diffraction data*, followed by the application of machine learning algorithms to select positions of interest.
+The objective of this project is to develop an *efficient compression* technique for *diffraction data*.
 
 ## How to run it
 
     git clone git@github.com:Senikm/simed.git 
-> Navigate to the project directroy
+> Navigate to the project directory
 
     mkdir build
     cd build
@@ -28,7 +28,7 @@ https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sha
     ./Decompress -path "path to your folder containing the .tiff files"
 
 
-## ImageJ plugin
+## ImageJ plugin for .trs format files
 
 > For compilation, use the java version that came with Fiji, to ensure java compatibility. Also make sure the ij-1.??.jar package is included in the compilation:
 > For example, compile with:
