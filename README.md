@@ -35,7 +35,8 @@ https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sha
 
     Applications/Fiji.app/java/macosx/zulu8.60.0.21-ca-fx-jdk8.0.322-macosx_x64/jre/Contents/Home/bin/javac -cp /Applications/Fiji.app/jars/ij-1.53t.jar Terse_Reader.java
 
-> Then create the .jar files with: 
+> Then create the .jar files with:
+
     Applications/Fiji.app/java/macosx/zulu8.60.0.21-ca-fx-jdk8.0.322-macosx_x64/jre/Contents/Home/bin/jar -cvf Terse_Reader.jar Terse_Reader*.class
 
 > Then copy Terse_Reader.jar to the "plugins" directory of Fiji:
