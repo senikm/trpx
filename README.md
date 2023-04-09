@@ -11,7 +11,7 @@ stream that contains Terse data
 
 ## How to run it
 
-    git clone git@github.com:Senikm/simed.git 
+    git clone git@github.com:Senikm/terse.git 
 > Navigate to the project directory
 
     mkdir build
