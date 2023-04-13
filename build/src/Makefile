@@ -165,80 +165,80 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/Compress.dir/rule:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/Compress.dir/rule
-.PHONY : src/CMakeFiles/Compress.dir/rule
+src/CMakeFiles/terse.dir/rule:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/terse.dir/rule
+.PHONY : src/CMakeFiles/terse.dir/rule
 
 # Convenience name for target.
-Compress: src/CMakeFiles/Compress.dir/rule
-.PHONY : Compress
+terse: src/CMakeFiles/terse.dir/rule
+.PHONY : terse
 
 # fast build rule for target.
-Compress/fast:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Compress.dir/build.make src/CMakeFiles/Compress.dir/build
-.PHONY : Compress/fast
+terse/fast:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/build
+.PHONY : terse/fast
 
 # Convenience name for target.
-src/CMakeFiles/Decompress.dir/rule:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/Decompress.dir/rule
-.PHONY : src/CMakeFiles/Decompress.dir/rule
+src/CMakeFiles/prolix.dir/rule:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/prolix.dir/rule
+.PHONY : src/CMakeFiles/prolix.dir/rule
 
 # Convenience name for target.
-Decompress: src/CMakeFiles/Decompress.dir/rule
-.PHONY : Decompress
+prolix: src/CMakeFiles/prolix.dir/rule
+.PHONY : prolix
 
 # fast build rule for target.
-Decompress/fast:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Decompress.dir/build.make src/CMakeFiles/Decompress.dir/build
-.PHONY : Decompress/fast
+prolix/fast:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/build
+.PHONY : prolix/fast
 
-main_compress.o: main_compress.cpp.o
-.PHONY : main_compress.o
-
-# target to build an object file
-main_compress.cpp.o:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Compress.dir/build.make src/CMakeFiles/Compress.dir/main_compress.cpp.o
-.PHONY : main_compress.cpp.o
-
-main_compress.i: main_compress.cpp.i
-.PHONY : main_compress.i
-
-# target to preprocess a source file
-main_compress.cpp.i:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Compress.dir/build.make src/CMakeFiles/Compress.dir/main_compress.cpp.i
-.PHONY : main_compress.cpp.i
-
-main_compress.s: main_compress.cpp.s
-.PHONY : main_compress.s
-
-# target to generate assembly for a file
-main_compress.cpp.s:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Compress.dir/build.make src/CMakeFiles/Compress.dir/main_compress.cpp.s
-.PHONY : main_compress.cpp.s
-
-main_decompress.o: main_decompress.cpp.o
-.PHONY : main_decompress.o
+prolix.o: prolix.cpp.o
+.PHONY : prolix.o
 
 # target to build an object file
-main_decompress.cpp.o:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Decompress.dir/build.make src/CMakeFiles/Decompress.dir/main_decompress.cpp.o
-.PHONY : main_decompress.cpp.o
+prolix.cpp.o:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.o
+.PHONY : prolix.cpp.o
 
-main_decompress.i: main_decompress.cpp.i
-.PHONY : main_decompress.i
+prolix.i: prolix.cpp.i
+.PHONY : prolix.i
 
 # target to preprocess a source file
-main_decompress.cpp.i:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Decompress.dir/build.make src/CMakeFiles/Decompress.dir/main_decompress.cpp.i
-.PHONY : main_decompress.cpp.i
+prolix.cpp.i:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.i
+.PHONY : prolix.cpp.i
 
-main_decompress.s: main_decompress.cpp.s
-.PHONY : main_decompress.s
+prolix.s: prolix.cpp.s
+.PHONY : prolix.s
 
 # target to generate assembly for a file
-main_decompress.cpp.s:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/Decompress.dir/build.make src/CMakeFiles/Decompress.dir/main_decompress.cpp.s
-.PHONY : main_decompress.cpp.s
+prolix.cpp.s:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.s
+.PHONY : prolix.cpp.s
+
+terse.o: terse.cpp.o
+.PHONY : terse.o
+
+# target to build an object file
+terse.cpp.o:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse.cpp.o
+.PHONY : terse.cpp.o
+
+terse.i: terse.cpp.i
+.PHONY : terse.i
+
+# target to preprocess a source file
+terse.cpp.i:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse.cpp.i
+.PHONY : terse.cpp.i
+
+terse.s: terse.cpp.s
+.PHONY : terse.s
+
+# target to generate assembly for a file
+terse.cpp.s:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse.cpp.s
+.PHONY : terse.cpp.s
 
 # Help Target
 help:
@@ -252,14 +252,14 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... Compress"
-	@echo "... Decompress"
-	@echo "... main_compress.o"
-	@echo "... main_compress.i"
-	@echo "... main_compress.s"
-	@echo "... main_decompress.o"
-	@echo "... main_decompress.i"
-	@echo "... main_decompress.s"
+	@echo "... prolix"
+	@echo "... terse"
+	@echo "... prolix.o"
+	@echo "... prolix.i"
+	@echo "... prolix.s"
+	@echo "... terse.o"
+	@echo "... terse.i"
+	@echo "... terse.s"
 .PHONY : help
 
 

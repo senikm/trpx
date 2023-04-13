@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/matiny0000/Documents/PhD/terse/src/main_compress.cpp" "src/CMakeFiles/Compress.dir/main_compress.cpp.o" "gcc" "src/CMakeFiles/Compress.dir/main_compress.cpp.o.d"
+  "/Users/matiny0000/Documents/PhD/terse/src/terse.cpp" "src/CMakeFiles/terse.dir/terse.cpp.o" "gcc" "src/CMakeFiles/terse.dir/terse.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

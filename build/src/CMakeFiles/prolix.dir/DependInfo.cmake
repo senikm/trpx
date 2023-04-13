@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/Users/matiny0000/Documents/PhD/terse/src/main_decompress.cpp" "src/CMakeFiles/Decompress.dir/main_decompress.cpp.o" "gcc" "src/CMakeFiles/Decompress.dir/main_decompress.cpp.o.d"
+  "/Users/matiny0000/Documents/PhD/terse/src/prolix.cpp" "src/CMakeFiles/prolix.dir/prolix.cpp.o" "gcc" "src/CMakeFiles/prolix.dir/prolix.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
