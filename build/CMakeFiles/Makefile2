@@ -84,8 +84,8 @@ clean: test/clean
 # Directory level rules for directory src
 
 # Recursive "all" directory target.
-src/all: src/CMakeFiles/Compress.dir/all
-src/all: src/CMakeFiles/Decompress.dir/all
+src/all: src/CMakeFiles/terse.dir/all
+src/all: src/CMakeFiles/prolix.dir/all
 .PHONY : src/all
 
 # Recursive "preinstall" directory target.
@@ -93,8 +93,8 @@ src/preinstall:
 .PHONY : src/preinstall
 
 # Recursive "clean" directory target.
-src/clean: src/CMakeFiles/Compress.dir/clean
-src/clean: src/CMakeFiles/Decompress.dir/clean
+src/clean: src/CMakeFiles/terse.dir/clean
+src/clean: src/CMakeFiles/prolix.dir/clean
 .PHONY : src/clean
 
 #=============================================================================
@@ -166,56 +166,56 @@ test/googletest-main/googletest/clean: test/googletest-main/googletest/CMakeFile
 .PHONY : test/googletest-main/googletest/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/Compress.dir
+# Target rules for target src/CMakeFiles/terse.dir
 
 # All Build rule for target.
-src/CMakeFiles/Compress.dir/all:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Compress.dir/build.make src/CMakeFiles/Compress.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Compress.dir/build.make src/CMakeFiles/Compress.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=1,2 "Built target Compress"
-.PHONY : src/CMakeFiles/Compress.dir/all
+src/CMakeFiles/terse.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=13,14 "Built target terse"
+.PHONY : src/CMakeFiles/terse.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/Compress.dir/rule: cmake_check_build_system
+src/CMakeFiles/terse.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/Compress.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/terse.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/Compress.dir/rule
+.PHONY : src/CMakeFiles/terse.dir/rule
 
 # Convenience name for target.
-Compress: src/CMakeFiles/Compress.dir/rule
-.PHONY : Compress
+terse: src/CMakeFiles/terse.dir/rule
+.PHONY : terse
 
 # clean rule for target.
-src/CMakeFiles/Compress.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Compress.dir/build.make src/CMakeFiles/Compress.dir/clean
-.PHONY : src/CMakeFiles/Compress.dir/clean
+src/CMakeFiles/terse.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/clean
+.PHONY : src/CMakeFiles/terse.dir/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/Decompress.dir
+# Target rules for target src/CMakeFiles/prolix.dir
 
 # All Build rule for target.
-src/CMakeFiles/Decompress.dir/all:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Decompress.dir/build.make src/CMakeFiles/Decompress.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Decompress.dir/build.make src/CMakeFiles/Decompress.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=6,7 "Built target Decompress"
-.PHONY : src/CMakeFiles/Decompress.dir/all
+src/CMakeFiles/prolix.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=11,12 "Built target prolix"
+.PHONY : src/CMakeFiles/prolix.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/Decompress.dir/rule: cmake_check_build_system
+src/CMakeFiles/prolix.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/Decompress.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/prolix.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/Decompress.dir/rule
+.PHONY : src/CMakeFiles/prolix.dir/rule
 
 # Convenience name for target.
-Decompress: src/CMakeFiles/Decompress.dir/rule
-.PHONY : Decompress
+prolix: src/CMakeFiles/prolix.dir/rule
+.PHONY : prolix
 
 # clean rule for target.
-src/CMakeFiles/Decompress.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Decompress.dir/build.make src/CMakeFiles/Decompress.dir/clean
-.PHONY : src/CMakeFiles/Decompress.dir/clean
+src/CMakeFiles/prolix.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/clean
+.PHONY : src/CMakeFiles/prolix.dir/clean
 
 #=============================================================================
 # Target rules for target test/CMakeFiles/CompressTests.dir
@@ -225,12 +225,12 @@ test/CMakeFiles/CompressTests.dir/all: test/googletest-main/googletest/CMakeFile
 test/CMakeFiles/CompressTests.dir/all: test/googletest-main/googletest/CMakeFiles/gtest_main.dir/all
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/CompressTests.dir/build.make test/CMakeFiles/CompressTests.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/CompressTests.dir/build.make test/CMakeFiles/CompressTests.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=3,4,5 "Built target CompressTests"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=1,2 "Built target CompressTests"
 .PHONY : test/CMakeFiles/CompressTests.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/CompressTests.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 7
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/CompressTests.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 0
 .PHONY : test/CMakeFiles/CompressTests.dir/rule
@@ -251,7 +251,7 @@ test/CMakeFiles/CompressTests.dir/clean:
 test/googletest-main/googlemock/CMakeFiles/gmock.dir/all: test/googletest-main/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f test/googletest-main/googlemock/CMakeFiles/gmock.dir/build.make test/googletest-main/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/googletest-main/googlemock/CMakeFiles/gmock.dir/build.make test/googletest-main/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=8,9 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=3,4 "Built target gmock"
 .PHONY : test/googletest-main/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
@@ -278,7 +278,7 @@ test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/all: test/googletest-m
 test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/all: test/googletest-main/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/build.make test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/build.make test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=10,11 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=5,6 "Built target gmock_main"
 .PHONY : test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -304,7 +304,7 @@ test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/clean:
 test/googletest-main/googletest/CMakeFiles/gtest.dir/all:
 	$(MAKE) $(MAKESILENT) -f test/googletest-main/googletest/CMakeFiles/gtest.dir/build.make test/googletest-main/googletest/CMakeFiles/gtest.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/googletest-main/googletest/CMakeFiles/gtest.dir/build.make test/googletest-main/googletest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=12,13 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=7,8 "Built target gtest"
 .PHONY : test/googletest-main/googletest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -330,7 +330,7 @@ test/googletest-main/googletest/CMakeFiles/gtest.dir/clean:
 test/googletest-main/googletest/CMakeFiles/gtest_main.dir/all: test/googletest-main/googletest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f test/googletest-main/googletest/CMakeFiles/gtest_main.dir/build.make test/googletest-main/googletest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f test/googletest-main/googletest/CMakeFiles/gtest_main.dir/build.make test/googletest-main/googletest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=14,15 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=9,10 "Built target gtest_main"
 .PHONY : test/googletest-main/googletest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.

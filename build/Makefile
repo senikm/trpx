@@ -165,30 +165,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Compress
+# Target rules for targets named terse
 
 # Build rule for target.
-Compress: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Compress
-.PHONY : Compress
+terse: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 terse
+.PHONY : terse
 
 # fast build rule for target.
-Compress/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Compress.dir/build.make src/CMakeFiles/Compress.dir/build
-.PHONY : Compress/fast
+terse/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/build
+.PHONY : terse/fast
 
 #=============================================================================
-# Target rules for targets named Decompress
+# Target rules for targets named prolix
 
 # Build rule for target.
-Decompress: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Decompress
-.PHONY : Decompress
+prolix: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 prolix
+.PHONY : prolix
 
 # fast build rule for target.
-Decompress/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/Decompress.dir/build.make src/CMakeFiles/Decompress.dir/build
-.PHONY : Decompress/fast
+prolix/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/build
+.PHONY : prolix/fast
 
 #=============================================================================
 # Target rules for targets named CompressTests
@@ -267,13 +267,13 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... Compress"
 	@echo "... CompressTests"
-	@echo "... Decompress"
 	@echo "... gmock"
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... prolix"
+	@echo "... terse"
 .PHONY : help
 
 

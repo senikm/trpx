@@ -27,11 +27,11 @@ https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sha
 
 > Compression
 
-    ./Compress -path "path to your folder containing the .tiff files"
+    ./terse -help "All available options will be printed"
 
 > Decompression
 
-    ./Decompress -path "path to your folder containing the .tiff files"
+    ./prolix -help "All available options will be printed"
 
 
 ## ImageJ plugin for .trs format files

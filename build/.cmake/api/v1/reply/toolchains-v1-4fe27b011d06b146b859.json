@@ -10,22 +10,22 @@
 				{
 					"includeDirectories" : 
 					[
-						"/Library/Developer/CommandLineTools/usr/lib/clang/14.0.0/include",
-						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include",
+						"/Library/Developer/CommandLineTools/usr/lib/clang/14.0.3/include",
+						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include",
 						"/Library/Developer/CommandLineTools/usr/include"
 					],
 					"linkDirectories" : 
 					[
-						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/lib"
+						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/lib"
 					],
 					"linkFrameworkDirectories" : 
 					[
-						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks"
+						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks"
 					],
 					"linkLibraries" : []
 				},
 				"path" : "/usr/bin/clang",
-				"version" : "14.0.0.14000029"
+				"version" : "14.0.3.14030022"
 			},
 			"language" : "C",
 			"sourceFileExtensions" : 
@@ -42,18 +42,18 @@
 				{
 					"includeDirectories" : 
 					[
-						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include/c++/v1",
-						"/Library/Developer/CommandLineTools/usr/lib/clang/14.0.0/include",
-						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/include",
+						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1",
+						"/Library/Developer/CommandLineTools/usr/lib/clang/14.0.3/include",
+						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include",
 						"/Library/Developer/CommandLineTools/usr/include"
 					],
 					"linkDirectories" : 
 					[
-						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/usr/lib"
+						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/lib"
 					],
 					"linkFrameworkDirectories" : 
 					[
-						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk/System/Library/Frameworks"
+						"/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/System/Library/Frameworks"
 					],
 					"linkLibraries" : 
 					[
@@ -61,7 +61,7 @@
 					]
 				},
 				"path" : "/usr/bin/clang++",
-				"version" : "14.0.0.14000029"
+				"version" : "14.0.3.14030022"
 			},
 			"language" : "CXX",
 			"sourceFileExtensions" : 

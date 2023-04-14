@@ -83,8 +83,8 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "src/CMakeFiles/Compress.dir/DependInfo.cmake"
-  "src/CMakeFiles/Decompress.dir/DependInfo.cmake"
+  "src/CMakeFiles/terse.dir/DependInfo.cmake"
+  "src/CMakeFiles/prolix.dir/DependInfo.cmake"
   "test/CMakeFiles/CompressTests.dir/DependInfo.cmake"
   "test/googletest-main/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake"
   "test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/DependInfo.cmake"

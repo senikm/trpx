@@ -1,6 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/CompressTests.dir/__/src/terse_functions.cpp.o"
-  "CMakeFiles/CompressTests.dir/__/src/terse_functions.cpp.o.d"
   "CMakeFiles/CompressTests.dir/terse_tests.cpp.o"
   "CMakeFiles/CompressTests.dir/terse_tests.cpp.o.d"
   "CompressTests"

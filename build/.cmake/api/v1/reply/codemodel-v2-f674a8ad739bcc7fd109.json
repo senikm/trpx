@@ -32,8 +32,8 @@
 					"source" : "src",
 					"targetIndexes" : 
 					[
-						0,
-						2
+						5,
+						6
 					]
 				},
 				{
@@ -53,7 +53,7 @@
 					"source" : "test",
 					"targetIndexes" : 
 					[
-						1
+						0
 					]
 				},
 				{
@@ -79,7 +79,7 @@
 						5
 					],
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-test.googletest-main.googlemock-Debug-9f8e72c16e26f5365e73.json",
+					"jsonFile" : "directory-test.googletest-main.googlemock-Debug-0bd95ec3936f01e34aa1.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.5"
@@ -89,14 +89,14 @@
 					"source" : "test/googletest-main/googlemock",
 					"targetIndexes" : 
 					[
-						3,
-						4
+						1,
+						2
 					]
 				},
 				{
 					"build" : "test/googletest-main/googletest",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-test.googletest-main.googletest-Debug-d72a550b0d3c52cefd85.json",
+					"jsonFile" : "directory-test.googletest-main.googletest-Debug-0ab74b7fae486a609dce.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.5"
@@ -106,8 +106,8 @@
 					"source" : "test/googletest-main/googletest",
 					"targetIndexes" : 
 					[
-						5,
-						6
+						3,
+						4
 					]
 				}
 			],
@@ -129,8 +129,8 @@
 					"targetIndexes" : 
 					[
 						0,
-						1,
-						2
+						5,
+						6
 					]
 				},
 				{
@@ -158,8 +158,8 @@
 					"parentIndex" : 1,
 					"targetIndexes" : 
 					[
-						3,
-						4
+						1,
+						2
 					]
 				},
 				{
@@ -171,61 +171,61 @@
 					"parentIndex" : 2,
 					"targetIndexes" : 
 					[
-						5,
-						6
+						3,
+						4
 					]
 				}
 			],
 			"targets" : 
 			[
 				{
-					"directoryIndex" : 1,
-					"id" : "Compress::@145eef247bfb46b6828c",
-					"jsonFile" : "target-Compress-Debug-85591c6fb4d59a1b6fda.json",
-					"name" : "Compress",
-					"projectIndex" : 0
-				},
-				{
 					"directoryIndex" : 2,
 					"id" : "CompressTests::@36f028580bb02cc8272a",
-					"jsonFile" : "target-CompressTests-Debug-92039044c27a8cf80fe7.json",
+					"jsonFile" : "target-CompressTests-Debug-61036a01b35c52d471a8.json",
 					"name" : "CompressTests",
-					"projectIndex" : 0
-				},
-				{
-					"directoryIndex" : 1,
-					"id" : "Decompress::@145eef247bfb46b6828c",
-					"jsonFile" : "target-Decompress-Debug-8e65d42c196f658e632c.json",
-					"name" : "Decompress",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 4,
 					"id" : "gmock::@dc4ca2e24c423f9b846e",
-					"jsonFile" : "target-gmock-Debug-1c8fc90d8b6f90de8487.json",
+					"jsonFile" : "target-gmock-Debug-274d4f2cd08712d4ba8e.json",
 					"name" : "gmock",
 					"projectIndex" : 2
 				},
 				{
 					"directoryIndex" : 4,
 					"id" : "gmock_main::@dc4ca2e24c423f9b846e",
-					"jsonFile" : "target-gmock_main-Debug-458950ddc53257164c0e.json",
+					"jsonFile" : "target-gmock_main-Debug-647731904bd780105ebc.json",
 					"name" : "gmock_main",
 					"projectIndex" : 2
 				},
 				{
 					"directoryIndex" : 5,
 					"id" : "gtest::@cc21a7437b5421b761e4",
-					"jsonFile" : "target-gtest-Debug-a539c9cfaac6876acc18.json",
+					"jsonFile" : "target-gtest-Debug-5d36377eabe05d319fbc.json",
 					"name" : "gtest",
 					"projectIndex" : 3
 				},
 				{
 					"directoryIndex" : 5,
 					"id" : "gtest_main::@cc21a7437b5421b761e4",
-					"jsonFile" : "target-gtest_main-Debug-a209c3afb911139176a6.json",
+					"jsonFile" : "target-gtest_main-Debug-dd0a0b2fd06792d1721e.json",
 					"name" : "gtest_main",
 					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "prolix::@145eef247bfb46b6828c",
+					"jsonFile" : "target-prolix-Debug-cd7513fa45da11cde4cc.json",
+					"name" : "prolix",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "terse::@145eef247bfb46b6828c",
+					"jsonFile" : "target-terse-Debug-c6634b7a00ad1fe37956.json",
+					"name" : "terse",
+					"projectIndex" : 0
 				}
 			]
 		}

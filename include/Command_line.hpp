@@ -20,7 +20,7 @@
 // It defines two classes: Command_line and Command_line_tag.
 //
 // Command_line_tag:
-//      Command_line_tag(std::string const& tag, std::string const& help, std::vector<std::string> const& default_params = {".*"})
+//      Command_line_tag(std::string const& tag, std::string const& help, std::vector<std::string> const& default_params = {""})
 //      Constructor that takes a tag, a help string describing the tag and a vector<string> with default arguments as parameters.
 //      The default_params define the default values of the parameters associated with the specified tag, and also the number of
 //      of allowed parameters. The default string ".*" indicates that the number of parameters is not fixed and could be zero.
@@ -61,39 +61,36 @@
 //      Returns a vector of all the requested value<T>s.
 //  std::string const help()
 //      Returns a help string, using the information specified by the Command_line_tags.
+//  std::vector<string> data()
+//      Returns a vector of strings containing all the tokens that followed the last tag.
 //
 // Example:
 //    int main(int argc, const char * argv[]) {
-//        Command_line_tag inp_size("-size", {"512", "512"},
-//                                  "Area detector size in pixels");
-//        Command_line_tag inp_pix("-pixel", {"0.05", "0.05"},
-//                                  "Pixel size in mm");
-//        Command_line_tag inp_dead("-dead_pixel", {".*"},
-//                                  "Dead pixel coordinates.");
-//        Command_line input(argc, argv, inp_size, inp_pix, inp_dead);
+//        Command_line_tag inp_size("-size", "Area detector size in pixels", {"512", "512"});
+//        Command_line_tag inp_pix("-pixel", "Pixel size in mm", {"0.05", "0.05"});
+//        Command_line_tag inp_dead("-dead_pixel", "Dead pixel coordinates.");
+//        Command_line_tag inp_verbose("-verbose", "Give lots of output when this keyword is present.", {});
+//        Command_line input(argc, argv, inp_size, inp_pix, inp_dead, inp_verbose);
 //
-//        std::vector<int> siz = input.value<int>("-size");
-//        std::vector<float> pix = input.value<float>("-pixel");
-//        std::vector<std::vector<int>> dead =
-//                               input.multivalue<int>("-dead_pixel");
-//
+//        std::vector<int> siz = input.tag("-size");
+//        std::vector<float> pix = input.tag("-pixel");
+//        std::vector<std::vector<int>> dead = input.multivalue<int>("-dead_pixel");
+//        std::vector<bool> verbose = input.tag("-verbose"); //== "false";
+//        std::vector<std::string> inp_data = input.data();
+//        if (input.found("-verbose") &&  input.tag("-verbose").found()){
+//            std::cout << "Running: " << input.app_name() << std::endl;
+//            std::cout << "\nUsage:\n" << input.help() << std::endl;
+//        }
 //        std::cout << "detector type: " << input.attribute(0) << "\n";
 //        std::cout << "size: " << siz[0] << " " << siz[1] << "\n";
 //        std::cout << "pitch: " << pix[0] << " " << pix[1] << "\n";
 //        std::cout << dead.size() << " dead pixels" << "\n";
-//        std::cout << "Running: " << input.app_name() << std::endl;
-//        std::cout << "\nUsage:\n" << input.help() << std::endl;
+//        std::cout << "remaining data: " << inp_data[0] << " "<< inp_data[1] << " "<< inp_data[2] << " "<< inp_data[3] << "\n";
 //    }
 //
-//      With the command line:
-// ./Detector Medipix3 -pixel 0.049 0.051 -size 256 -dead_pixel 420 102 -dead_pixel 421 102
+//      With the command line: ./Detector Medipix3 -pixel 0.049 0.051 -size 256 -dead_pixel 420 102 -dead_pixel 421 102 -verbose 1 2 3 4
 //      This yields:
-//
-//    detector type: Medipix3
-//    size: 256 512
-//    pitch: 0.049 0.051
-//    2 dead pixels
-//    Running: /Users/janpieterabrahams/Library/Developer/Xcode/DerivedData/Command_line-ewzfuzffzqplcwcdttaawxitpika/Build/Products/Debug/Command_line
+//    Running: /Users/abrahams/Library/Developer/Xcode/DerivedData/Command_line-faryocxqelmvksfijlumrwevgcxe/Build/Products/Debug/Command_line
 //
 //    Usage:
 //    -size: Area detector size in pixels
@@ -101,8 +98,14 @@
 //    -pixel: Pixel size in mm
 //        default: 0.05 0.05
 //    -dead_pixel: Dead pixel coordinates.
-//        default: .*
-
+//        default: .*   (number of parameters unspecified; no parameters by default)
+//    -verbose: Give lots of output when this keyword is present.
+//
+//    detector type: Medipix
+//    size: 512 512
+//    pitch: 0.049 0.051
+//    2 dead pixels
+//    remaining data: 1 2 3 4
 
 class Command_line;
 
@@ -110,7 +113,7 @@ class Command_line_tag : public std::string {
     struct Key_value;
     friend Command_line;
 public:
-    Command_line_tag(std::string const& tag, std::string const& help, std::vector<std::string> const& default_params = {".*"}) :
+    Command_line_tag(std::string const& tag, std::string const& help, std::vector<std::string> const& default_params = std::vector<std::string>()) :
     std::string(tag),
     d_default_params(default_params),
     d_help(help){
@@ -214,6 +217,19 @@ public:
             }
         }
         return r;
+    }
+    
+    std::vector<std::string> data() {
+        long data_start = 1;
+        for (auto &t: d_tags) {
+            auto cursor = rend() - std::find(rbegin(), rend(), t);
+            if (cursor != 0) {
+                if (t.d_default_params.size() != 0)
+                    cursor = std::find_first_of(begin() + cursor + 1, end(), d_tags.begin(), d_tags.end()) - begin();
+                data_start = std::max(data_start, cursor);
+            }
+        }
+        return std::vector<std::string>(this->begin() + data_start, this->end());
     }
     
 private:

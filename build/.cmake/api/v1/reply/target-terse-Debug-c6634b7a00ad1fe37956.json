@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "src/Decompress"
+			"path" : "src/terse"
 		}
 	],
 	"backtrace" : 1,
@@ -25,13 +25,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 7,
+				"line" : 3,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 8,
+				"line" : 4,
 				"parent" : 0
 			}
 		]
@@ -42,7 +42,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk"
+					"fragment" : "-g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk"
 				}
 			],
 			"includes" : 
@@ -67,7 +67,7 @@
 			]
 		}
 	],
-	"id" : "Decompress::@145eef247bfb46b6828c",
+	"id" : "terse::@145eef247bfb46b6828c",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -83,8 +83,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "Decompress",
-	"nameOnDisk" : "Decompress",
+	"name" : "terse",
+	"nameOnDisk" : "terse",
 	"paths" : 
 	{
 		"build" : "src",
@@ -105,7 +105,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "src/main_decompress.cpp",
+			"path" : "src/terse.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

@@ -20,30 +20,31 @@ namespace fs = std::filesystem;
 
 int main(int argc, char const* argv[]) {
     using namespace jpa;
-    Command_line_tag folder_path_name("-path", "Path to the folder",  {"./"});
-    Command_line_tag help("-help", {});
-    Command_line input(argc, argv, help, folder_path_name);
+    Command_line_tag help("-help", "print help");
+    Command_line_tag verbose("-verbose", "provide extra output");
+    Command_line input(argc, argv, help, verbose);
     if (input.found("-help")) {
+        std::cout << "terse [-help] [-verbose] [file ...]\n";
+        std::cout << "  converts all files with .tiff extensions with to terse files with .trs extensions.\n";
+        std::cout << "Example:\n";
+        std::cout << "   prolix *                   // decompresses all files in the currrent directory\n";
+        std::cout << "   prolix ˜/dir/*             // decompresses all files in the the directory ~/dir\n";
+        std::cout << "   prolix ˜/dir/my_img*       // decompresses all files in the the directory ~/dir that start with my_img\n";
         std::cout << input.help() << std::endl;
-        return 0;
+        for (auto f : input.data())
+            std::cout << "   input file: " << f << "\n";
     }
-
-    fs::path folder_path(std::vector<std::string>(input.value<std::string>("-path"))[0]);
-
-    // Print the folder path
-    std::cout << "Folder path provided: " << folder_path << std::endl;
 
     const std::string input_extension = ".trs";
     const std::string output_extension = ".tiff";
-    const fs::path input_dir_path = folder_path;
-    const fs::path output_dir_path = folder_path;
-
-    for (const auto& entry : fs::directory_iterator(input_dir_path)) {
-        if (entry.is_regular_file() && entry.path().extension() == input_extension) {
-            const fs::path input_file_path = entry.path();
-            const fs::path output_file_path = output_dir_path / (input_file_path.stem().string() + output_extension);
-
-
+    const std::vector<std::string> tiffs = input.data();
+    
+    for (const auto& filename : tiffs) {
+        fs::path entry = filename;
+        if (fs::is_regular_file(entry) && entry.extension() == input_extension) {
+            const fs::path input_file_path = entry;
+            const fs::path output_file_path = entry.replace_extension(output_extension);
+            
             // Read input file.
             std::ifstream input_file(input_file_path, std::ios::binary);
             if (!input_file.is_open()) {

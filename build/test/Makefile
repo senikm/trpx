@@ -178,30 +178,6 @@ CompressTests/fast:
 	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/CompressTests.dir/build.make test/CMakeFiles/CompressTests.dir/build
 .PHONY : CompressTests/fast
 
-__/src/terse_functions.o: __/src/terse_functions.cpp.o
-.PHONY : __/src/terse_functions.o
-
-# target to build an object file
-__/src/terse_functions.cpp.o:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/CompressTests.dir/build.make test/CMakeFiles/CompressTests.dir/__/src/terse_functions.cpp.o
-.PHONY : __/src/terse_functions.cpp.o
-
-__/src/terse_functions.i: __/src/terse_functions.cpp.i
-.PHONY : __/src/terse_functions.i
-
-# target to preprocess a source file
-__/src/terse_functions.cpp.i:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/CompressTests.dir/build.make test/CMakeFiles/CompressTests.dir/__/src/terse_functions.cpp.i
-.PHONY : __/src/terse_functions.cpp.i
-
-__/src/terse_functions.s: __/src/terse_functions.cpp.s
-.PHONY : __/src/terse_functions.s
-
-# target to generate assembly for a file
-__/src/terse_functions.cpp.s:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/CompressTests.dir/build.make test/CMakeFiles/CompressTests.dir/__/src/terse_functions.cpp.s
-.PHONY : __/src/terse_functions.cpp.s
-
 terse_tests.o: terse_tests.cpp.o
 .PHONY : terse_tests.o
 
@@ -239,9 +215,6 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... CompressTests"
-	@echo "... __/src/terse_functions.o"
-	@echo "... __/src/terse_functions.i"
-	@echo "... __/src/terse_functions.s"
 	@echo "... terse_tests.o"
 	@echo "... terse_tests.i"
 	@echo "... terse_tests.s"
