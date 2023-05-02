@@ -1,4 +1,4 @@
-##  TERSE/PROLIX C++ Fast and Efficient diffraction data compressor
+##  TERSE C++ Fast and Lossless Diffraction Data Compressor
 
 
 The objective of this project is to develop an *efficient compression* technique for *diffraction data*.
