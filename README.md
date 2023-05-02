@@ -23,7 +23,7 @@ stream that contains Terse data
 
 https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing
 
-## Running compression and decompression with the provided build files (For MacOS only) or when compiled by the end-user
+### Running compression and decompression with the provided build files (For MacOS only) or when compiled by the end-user
 
 > Compression
 
