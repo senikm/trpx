@@ -30,45 +30,6 @@ int main(int argc, char const* argv[]) {
         return 0;
     }
 
-//    std::vector<std::vector<std::uint16_t>> images;
-//    std::vector<Terse<uint64_t>> compressed_images;
-    
-    // Reading in all images
-//    for (const auto& filename : input.data()) {
-//        fs::path entry = filename;
-//        const bool is_tif = entry.extension() == ".tiff" || entry.extension() == ".tif";
-//        if (fs::is_regular_file(entry) && (is_tif || entry.extension() == ".trs")) {
-//            const fs::path input_file_path = entry;
-//
-//            // Open input & output files.
-//            std::ifstream input_file(input_file_path, std::ios::binary);
-//            if (!input_file.is_open())
-//                std::cerr << "Failed to open input file " << input_file_path << std::endl;
-//            else {
-//                if (is_tif) { // read tif data and write out terse file
-//                    std::vector<uint16_t> img(512*512);
-//                    jpa::read_tiff_Medipix(input_file, img);
-//                    images.push_back(img);
-//                }
-//            }
-//        }
-//    }
-    
-    // Compressing images
-//    for (auto& img : images) {
-//        auto compressed = Terse(img);
-//        compressed_images.push_back(compressed);
-//    }
-//
-    
-    // Writing out .trs files
-//    for (int i = 0; const auto& filename : input.data()) {
-//        fs::path entry = filename;
-//        const fs::path output_file_path = entry.replace_extension(".trs");
-//        std::ofstream output_file(output_file_path, std::ios::binary);
-//        output_file << compressed_images[i++];
-//    }
-
     for (const auto& filename : input.data()) {
         fs::path entry = filename;
         const bool is_tif = entry.extension() == ".tiff" || entry.extension() == ".tif";
@@ -87,11 +48,6 @@ int main(int argc, char const* argv[]) {
                 std::vector<std::uint16_t> img(512*512);
                 if (is_tif) { // read tif data and write out terse file
                     jpa::read_tiff_Medipix(input_file, img);
-//                    for (int i=0; i<1000; ++i) {
-//                        auto plop = Terse(img);
-////                        plop.prolix(img.begin());
-//                    }
-
                    output_file << Terse(img);
                 }
                 else { // read terse data and write out tiff file

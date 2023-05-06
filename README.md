@@ -13,11 +13,13 @@ stream that contains Terse data
 
     git clone git@github.com:Senikm/terse.git 
 > Navigate to the project directory
+```cmake
 
     mkdir build
     cd build
     cmake ..
     make 
+```
 
 ## Test dataset:
 
