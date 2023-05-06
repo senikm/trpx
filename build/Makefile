@@ -178,19 +178,6 @@ terse/fast:
 .PHONY : terse/fast
 
 #=============================================================================
-# Target rules for targets named prolix
-
-# Build rule for target.
-prolix: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 prolix
-.PHONY : prolix
-
-# fast build rule for target.
-prolix/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/build
-.PHONY : prolix/fast
-
-#=============================================================================
 # Target rules for targets named CompressTests
 
 # Build rule for target.
@@ -272,7 +259,6 @@ help:
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
-	@echo "... prolix"
 	@echo "... terse"
 .PHONY : help
 

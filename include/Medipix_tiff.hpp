@@ -276,7 +276,7 @@ std::size_t write_tiff_Medipix(std::ofstream& tiff, auto const& data, std::size_
         set_IDF(0x0103, 3, 1);
         set_IDF(0x0106, 3, 1);
         set_IDF(0x0111, 4, 8);
-        tiff_IDF[77] = tiff_IDF[76] = tiff_IDF[75] = tiff_IDF[74] = 0;        
+        tiff_IDF[77] = tiff_IDF[76] = tiff_IDF[75] = tiff_IDF[74] = 0;
         tiff.write(header, 8);
         if constexpr (sizeof(TiffT) == sizeof *data && std::is_integral_v<std::remove_cvref_t<decltype(*data)>>)
             tiff.write(reinterpret_cast<const char*>(&data[0]), dim[0] * dim[1] * sizeof(TiffT));

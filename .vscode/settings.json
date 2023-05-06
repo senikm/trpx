@@ -1,5 +1,19 @@
 {
-    "files.associations": {
-        "iosfwd": "cpp"
-    }
+    "cmake.configureArgs": [
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+    ],
+    "cmake.buildDirectory": "${workspaceFolder}/build",
+    "cmake.generator": "Unix Makefiles",
+    "cmake.configureOnOpen": true,
+    "cmake.configureSettings": {
+        "CMAKE_CXX_COMPILER": "/usr/bin/g++",
+        "CMAKE_C_COMPILER": "/usr/bin/gcc"
+    },
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "C_Cpp.intelliSenseEngine": "Default",
+    "C_Cpp.errorSquiggles": "Enabled",
+    "C_Cpp.loggingLevel": "Debug",
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000
 }

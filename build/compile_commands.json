@@ -1,43 +1,37 @@
 [
 {
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/src",
-  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/terse.dir/terse.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/terse.cpp",
+  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -O3 -DNDEBUG -O3 -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/terse.dir/terse.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/terse.cpp",
   "file": "/Users/matiny0000/Documents/PhD/terse/src/terse.cpp",
   "output": "src/CMakeFiles/terse.dir/terse.cpp.o"
 },
 {
-  "directory": "/Users/matiny0000/Documents/PhD/terse/build/src",
-  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/prolix.dir/prolix.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/prolix.cpp",
-  "file": "/Users/matiny0000/Documents/PhD/terse/src/prolix.cpp",
-  "output": "src/CMakeFiles/prolix.dir/prolix.cpp.o"
-},
-{
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/test",
-  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -g -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/CompressTests.dir/terse_tests.cpp.o -c /Users/matiny0000/Documents/PhD/terse/test/terse_tests.cpp",
+  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -O3 -DNDEBUG -O3 -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/CompressTests.dir/terse_tests.cpp.o -c /Users/matiny0000/Documents/PhD/terse/test/terse_tests.cpp",
   "file": "/Users/matiny0000/Documents/PhD/terse/test/terse_tests.cpp",
   "output": "test/CMakeFiles/CompressTests.dir/terse_tests.cpp.o"
 },
 {
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/test/googletest-main/googlemock",
-  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/include -I/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -g -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/src/gmock-all.cc",
+  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/include -I/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -O3 -DNDEBUG -O3 -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gmock.dir/src/gmock-all.cc.o -c /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/src/gmock-all.cc",
   "file": "/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/src/gmock-all.cc",
   "output": "test/googletest-main/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o"
 },
 {
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/test/googletest-main/googlemock",
-  "command": "/usr/bin/clang++  -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -g -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/src/gmock_main.cc",
+  "command": "/usr/bin/clang++  -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -O3 -DNDEBUG -O3 -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gmock_main.dir/src/gmock_main.cc.o -c /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/src/gmock_main.cc",
   "file": "/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googlemock/src/gmock_main.cc",
   "output": "test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o"
 },
 {
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/test/googletest-main/googletest",
-  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -I/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -g -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/src/gtest-all.cc",
+  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -I/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -O3 -DNDEBUG -O3 -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gtest.dir/src/gtest-all.cc.o -c /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/src/gtest-all.cc",
   "file": "/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/src/gtest-all.cc",
   "output": "test/googletest-main/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o"
 },
 {
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/test/googletest-main/googletest",
-  "command": "/usr/bin/clang++  -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -g -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/src/gtest_main.cc",
+  "command": "/usr/bin/clang++  -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/include -isystem /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest -O3 -DNDEBUG -O3 -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk  -DGTEST_HAS_PTHREAD=1   -o CMakeFiles/gtest_main.dir/src/gtest_main.cc.o -c /Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/src/gtest_main.cc",
   "file": "/Users/matiny0000/Documents/PhD/terse/test/googletest-main/googletest/src/gtest_main.cc",
   "output": "test/googletest-main/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o"
 }

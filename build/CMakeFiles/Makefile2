@@ -85,7 +85,6 @@ clean: test/clean
 
 # Recursive "all" directory target.
 src/all: src/CMakeFiles/terse.dir/all
-src/all: src/CMakeFiles/prolix.dir/all
 .PHONY : src/all
 
 # Recursive "preinstall" directory target.
@@ -94,7 +93,6 @@ src/preinstall:
 
 # Recursive "clean" directory target.
 src/clean: src/CMakeFiles/terse.dir/clean
-src/clean: src/CMakeFiles/prolix.dir/clean
 .PHONY : src/clean
 
 #=============================================================================
@@ -172,7 +170,7 @@ test/googletest-main/googletest/clean: test/googletest-main/googletest/CMakeFile
 src/CMakeFiles/terse.dir/all:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/depend
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=13,14 "Built target terse"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=11,12 "Built target terse"
 .PHONY : src/CMakeFiles/terse.dir/all
 
 # Build rule for subdir invocation for target.
@@ -190,32 +188,6 @@ terse: src/CMakeFiles/terse.dir/rule
 src/CMakeFiles/terse.dir/clean:
 	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/clean
 .PHONY : src/CMakeFiles/terse.dir/clean
-
-#=============================================================================
-# Target rules for target src/CMakeFiles/prolix.dir
-
-# All Build rule for target.
-src/CMakeFiles/prolix.dir/all:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=11,12 "Built target prolix"
-.PHONY : src/CMakeFiles/prolix.dir/all
-
-# Build rule for subdir invocation for target.
-src/CMakeFiles/prolix.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/prolix.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles 0
-.PHONY : src/CMakeFiles/prolix.dir/rule
-
-# Convenience name for target.
-prolix: src/CMakeFiles/prolix.dir/rule
-.PHONY : prolix
-
-# clean rule for target.
-src/CMakeFiles/prolix.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/clean
-.PHONY : src/CMakeFiles/prolix.dir/clean
 
 #=============================================================================
 # Target rules for target test/CMakeFiles/CompressTests.dir

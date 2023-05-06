@@ -79,7 +79,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-g -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk"
+					"fragment" : "-O3 -DNDEBUG -O3 -std=c++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk"
 				},
 				{
 					"fragment" : " -DGTEST_HAS_PTHREAD=1  "

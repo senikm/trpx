@@ -84,15 +84,25 @@
 //      Size of the Bit_range.
 //  Bit_range<Iterator>& next()
 //      Alters the Bit_range by changing the start of the Bit_range to the bit pointed to by Bit_range::end().
-//      The size of the Bit_range does not change. 
-//  template <typename T>
-//  operator T() const noexcept
+//      The size of the Bit_range does not change.
+//  template <typename T> operator T() const noexcept
 //      Casts a Bit_range to an integral type. If T is a signed type, the value of the most significant bit
 //      of the Bit_range determines the sign of the returned value. The Bit_range cannot have a size exceeding
 //      that of the number of bits of T.
 //  Bit_range& operator =(T const value)
 //      Assigns an integral type to a Bit_range. The Bit_range cannot have a size exceeding that of the
 //      number of bits of T.
+//  Bit_range& operator |=(T const value)
+//      Bitwise or-assigns an integral type to a Bit_range. The Bit_range cannot have a size exceeding that of the
+//      number of bits of T. It is faster than direct assignment, provided all bits in the Bit_range are zero.
+//  template <typename T_iter> requires std::is_integral_v<typename std::iterator_traits<T_iter>::value_type>
+//  Bit_range& append_range(T_iter const from, T_iter const to) noexcept
+//      Assigns integral values defined by the range between the iterators 'from' and 'to' to the Bit_range and
+//      succeeding Bit_ranges. Updates the Bit_range start to point to the next unassigned Bit_range.
+//  template <typename T_iter> requires std::is_integral_v<typename std::iterator_traits<T_iter>::value_type>
+//      void get_range(T_iter const from, T_iter const to) noexcept
+//      Extracts integral values from Bit_range and its succeeding Bit_ranges into the range defined by the
+//      iterators from and to. Updates the Bit_range start to point to the next unassigned Bit_range.
 
 template <typename Iterator> class Bit;
 template <typename Iterator> class Bit_range;
@@ -255,7 +265,9 @@ public:
     Bit_pointer<Iterator> const begin() const noexcept {return d_bit_pointer;}
     Bit_pointer<Iterator> const end() const noexcept   {return d_bit_pointer + d_size;}
     std::ptrdiff_t const size() const noexcept {return d_size;}
-    Bit_range<Iterator>& next() {
+
+    
+    Bit_range<Iterator>& next() noexcept {
         d_bit_pointer.d_bit += size();
         while (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
             d_bit_pointer.d_bit -= (sizeof(Type) * 8);
@@ -286,60 +298,6 @@ public:
         return result;
     }
     
-    template <typename I, std::enable_if_t<std::is_integral_v<typename std::iterator_traits<I>::value_type>, int> = 0>
-     void pull_out_series(I const series_start, I const series_end) noexcept {
-         using T = typename std::iterator_traits<I>::value_type;
-         if (size() == 0)
-             std::fill(series_start, series_end, 0);
-         else {
-             T const mask = ((T(1) << d_size) - 1);
-             std::remove_cv_t<Type> buffer = *d_bit_pointer.d_offset >> d_bit_pointer.d_bit;
-             for (auto p = series_start; p != series_end; ++p) {
-                 T result = T(buffer);
-                 buffer >>= this->size();
-                 d_bit_pointer.d_bit += this->size();
-                 if (d_bit_pointer.d_bit >= sizeof(Type) * 8) {
-                     buffer = *++d_bit_pointer.d_offset;
-                     d_bit_pointer.d_bit -= sizeof(Type) * 8;
-                     result |= buffer << (this->size() - d_bit_pointer.d_bit);
-                     buffer >>= d_bit_pointer.d_bit;
-                 }
-                 if constexpr (std::is_unsigned_v<T>)
-                     *p = result & mask;
-                 else if (result & (T(1) << (size() - 1)))
-                     *p = (result & mask) | ~mask;
-                 else
-                     *p = result & mask;
-             }
-         }
-     }
-//    template <typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
-//     void pull_out_series(T* const series_start, T* const series_end) noexcept {
-//         if (size() == 0)
-//             std::fill(series_start, series_end, 0);
-//         else {
-//             T const mask = ((T(1) << d_size) - 1);
-//             std::remove_cv_t<Type> buffer = *d_bit_pointer.d_offset >> d_bit_pointer.d_bit;
-//             for (auto p = series_start; p != series_end; ++p) {
-//                 T result = T(buffer);
-//                 buffer >>= this->size();
-//                 d_bit_pointer.d_bit += this->size();
-//                 if (d_bit_pointer.d_bit >= sizeof(Type) * 8) {
-//                     buffer = *++d_bit_pointer.d_offset;
-//                     d_bit_pointer.d_bit -= sizeof(Type) * 8;
-//                     result |= buffer << (this->size() - d_bit_pointer.d_bit);
-//                     buffer >>= d_bit_pointer.d_bit;
-//                 }
-//                 if constexpr (std::is_unsigned_v<T>)
-//                     *p = result & mask;
-//                 else if (result & (T(1) << (size() - 1)))
-//                     *p = (result & mask) | ~mask;
-//                 else
-//                     *p = result & mask;
-//             }
-//         }
-//     }
-
     template <typename T>
     Bit_range& operator |=(T value) noexcept {
         static_assert(std::is_integral<T>::value, "Bit_range assignment requires an integral type");
@@ -363,130 +321,6 @@ public:
         return *this;
     }
     
-    template <typename T>
-    Bit_range& push_in_series(T* series_start, size_t n_elem) noexcept {
-        static_assert(std::is_integral<T>::value, "Bit_range assignment requires an integral type");
-        Type buffer = *d_bit_pointer.d_offset;
-        while (n_elem--) {
-            T value = *series_start++;
-            if constexpr (std::is_signed_v<T*>)
-                value &= (((T*)(1) << d_size) - 1);
-            buffer |= Type(value) << d_bit_pointer.d_bit;
-            d_bit_pointer.d_bit += this->size();
-            if ((sizeof(T*) <= sizeof(Type)) || (size() <= (sizeof(Type) * 8))) {
-                if (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
-                    *(d_bit_pointer.d_offset++) = buffer;
-                    d_bit_pointer.d_bit -= sizeof(Type) * 8;
-                    buffer = value >> (this->size() - d_bit_pointer.d_bit);
-                }
-            }
-            else {
-                while (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
-                    *(d_bit_pointer.d_offset++) = buffer;
-                    d_bit_pointer.d_bit -= sizeof(Type) * 8;
-                    buffer = value >> (this->size() - d_bit_pointer.d_bit);
-                }
-            }
-        }
-        *d_bit_pointer.d_offset = buffer;
-        return *this;
-    }
-
-    template <typename I, std::enable_if_t<std::is_integral_v<typename std::iterator_traits<I>::value_type>, int> = 0>
-    Bit_range& push_in_series(I const series_start, I const series_end) noexcept {
-        if (this->size()) {
-            Type buffer = *d_bit_pointer.d_offset;
-            Type value;
-            for (auto p = series_start; p != series_end; ++p) {
-                if constexpr (std::is_signed_v<typename std::iterator_traits<I>::value_type>)
-                    value = *p & (((typename std::iterator_traits<I>::value_type)(1) << d_size) - 1);
-                else
-                    value = *p;
-                buffer |= value << d_bit_pointer.d_bit;
-                d_bit_pointer.d_bit += this->size();
-                if (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
-                    *(d_bit_pointer.d_offset++) = buffer;
-                    d_bit_pointer.d_bit -= sizeof(Type) * 8;
-                    buffer = value >> (this->size() - d_bit_pointer.d_bit);
-                    if constexpr (sizeof(typename std::iterator_traits<I>::value_type) > sizeof(Type))
-                        while (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
-                            *(d_bit_pointer.d_offset++) = buffer;
-                            d_bit_pointer.d_bit -= sizeof(Type) * 8;
-                            buffer = value >> (this->size() - d_bit_pointer.d_bit);
-                        }
-                }
-            }
-            *d_bit_pointer.d_offset = buffer;
-        }
-        return *this;
-    }
-
-//template <typename T, std::enable_if_t<std::is_integral_v<T>, int> = 0>
-//Bit_range& push_in_series(T* const series_start, T* const series_end) noexcept {
-//    if (this->size()) {
-//        Type buffer = *d_bit_pointer.d_offset;
-//        Type value;
-//        for (auto p = series_start; p != series_end; ++p) {
-//            if constexpr (std::is_signed_v<T>)
-//                value = *p & ((T(1) << d_size) - 1);
-//            else
-//                value = *p;
-//            buffer |= value << d_bit_pointer.d_bit;
-//            d_bit_pointer.d_bit += this->size();
-//            if (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
-//                *(d_bit_pointer.d_offset++) = buffer;
-//                d_bit_pointer.d_bit -= sizeof(Type) * 8;
-//                buffer = value >> (this->size() - d_bit_pointer.d_bit);
-//                if constexpr (sizeof(T) > sizeof(Type))
-//                    while (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
-//                        *(d_bit_pointer.d_offset++) = buffer;
-//                        d_bit_pointer.d_bit -= sizeof(Type) * 8;
-//                        buffer = value >> (this->size() - d_bit_pointer.d_bit);
-//                    }
-//            }
-//        }
-//        *d_bit_pointer.d_offset = buffer;
-//    }
-//    return *this;
-//}
-
-//    template <typename T, std::enable_if_t<sizeof(T) <= sizeof(Type) && std::is_signed_v<T> && std::is_integral_v<T>, int> = 0>
-//    Bit_range& push_in_series(T* const series_start, T* const series_end) noexcept {
-//        Type buffer = *d_bit_pointer.d_offset;
-//        for (auto p = series_start ;p != series_end; ++p) {
-//            Type value = *p & ((T(1) << d_size) - 1);
-//            buffer |= value << d_bit_pointer.d_bit;
-//            d_bit_pointer.d_bit += this->size();
-//            if (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
-//                *(d_bit_pointer.d_offset++) = buffer;
-//                d_bit_pointer.d_bit -= sizeof(Type) * 8;
-//                buffer = value >> (this->size() - d_bit_pointer.d_bit);
-//            }
-//        }
-//        *d_bit_pointer.d_offset = buffer;
-//        return *this;
-//    }
-
-    //    template <typename T>
-//    Bit_range& push_in_series(T* series_start, size_t n_elem) noexcept {
-//        static_assert(std::is_integral<T>::value, "Bit_range assignment requires an integral type");
-//        Type buffer = *d_bit_pointer.d_offset;
-//        while (n_elem--) {
-//            T value = *series_start++;
-//            if constexpr (std::is_signed_v<T*>)
-//                value &= (((T*)(1) << d_size) - 1);
-//            buffer |= Type(value) << d_bit_pointer.d_bit;
-//            d_bit_pointer.d_bit += this->size();
-//            while (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
-//                *(d_bit_pointer.d_offset++) = buffer;
-//                d_bit_pointer.d_bit -= sizeof(Type) * 8;
-//                buffer = value >> (this->size() - d_bit_pointer.d_bit);
-//            }
-//        }
-//        *d_bit_pointer.d_offset = buffer;
-//        return *this;
-//    }
-
     template <typename T>
     Bit_range& operator =(T value) noexcept {
         static_assert(std::is_integral<T>::value, "Bit_range assignment requires an integral type");
@@ -518,7 +352,64 @@ public:
         }
         return *this;
     }
+
+    template <typename T_iter> requires std::is_integral_v<typename std::iterator_traits<T_iter>::value_type>
+    Bit_range& append_range(T_iter const from, T_iter const to) noexcept {
+        if (this->size()) {
+            Type buffer = *d_bit_pointer.d_offset;
+            Type value;
+            for (auto p = from; p != to; ++p) {
+                if constexpr (std::is_signed_v<typename std::iterator_traits<T_iter>::value_type>)
+                    value = *p & (((typename std::iterator_traits<T_iter>::value_type)(1) << d_size) - 1);
+                else
+                    value = *p;
+                buffer |= value << d_bit_pointer.d_bit;
+                d_bit_pointer.d_bit += this->size();
+                if (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
+                    *(d_bit_pointer.d_offset++) = buffer;
+                    d_bit_pointer.d_bit -= sizeof(Type) * 8;
+                    buffer = value >> (this->size() - d_bit_pointer.d_bit);
+                    if constexpr (sizeof(typename std::iterator_traits<T_iter>::value_type) > sizeof(Type))
+                        while (d_bit_pointer.d_bit >= (sizeof(Type) * 8)) {
+                            *(d_bit_pointer.d_offset++) = buffer;
+                            d_bit_pointer.d_bit -= sizeof(Type) * 8;
+                            buffer = value >> (this->size() - d_bit_pointer.d_bit);
+                        }
+                }
+            }
+            *d_bit_pointer.d_offset = buffer;
+        }
+        return *this;
+    }
     
+    template <typename T_iter> requires std::is_integral_v<typename std::iterator_traits<T_iter>::value_type>
+     void get_range(T_iter const from, T_iter const to) noexcept {
+         using T = typename std::iterator_traits<T_iter>::value_type;
+         if (size() == 0)
+             std::fill(from, to, 0);
+         else {
+             T const mask = ((T(1) << d_size) - 1);
+             std::remove_cv_t<Type> buffer = *d_bit_pointer.d_offset >> d_bit_pointer.d_bit;
+             for (auto p = from; p != to; ++p) {
+                 T result = T(buffer);
+                 buffer >>= this->size();
+                 d_bit_pointer.d_bit += this->size();
+                 if (d_bit_pointer.d_bit >= sizeof(Type) * 8) {
+                     buffer = *++d_bit_pointer.d_offset;
+                     d_bit_pointer.d_bit -= sizeof(Type) * 8;
+                     result |= buffer << (this->size() - d_bit_pointer.d_bit);
+                     buffer >>= d_bit_pointer.d_bit;
+                 }
+                 if constexpr (std::is_unsigned_v<T>)
+                     *p = result & mask;
+                 else if (result & (T(1) << (size() - 1)))
+                     *p = (result & mask) | ~mask;
+                 else
+                     *p = result & mask;
+             }
+         }
+     }
+
 private:
     Bit_pointer<Iterator> d_bit_pointer;
     std::size_t const d_size;

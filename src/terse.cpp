@@ -6,19 +6,11 @@
 //
 
 #include <iostream>
-#include <filesystem>
-#include <fstream>
-#include <string>
-#include <vector>
-#include <chrono>
-#include <thread>
-#include <bit>
 #include "Terse.hpp"
 #include "Command_line.hpp"
 #include "Medipix_tiff.hpp"
 
 namespace fs = std::filesystem;
-
 
 int main(int argc, char const* argv[]) {
     using namespace jpa;
@@ -27,57 +19,94 @@ int main(int argc, char const* argv[]) {
     Command_line input(argc, argv, help, verbose);
     if (input.found("-help")) {
         std::cout << "terse [-help] [-verbose] [file ...]\n";
-        std::cout << "  converts all files with .tiff extensions with to terse files with .trs extensions.\n";
-        std::cout << "Example:\n";
-        std::cout << "   terse *                   // compresses all files in the currrent directory\n";
-        std::cout << "   terse ˜/dir/*             // compresses all files in the the directory ~/dir\n";
-        std::cout << "   terse ˜/dir/my_img*       // compresses all files in the the directory ~/dir that start with my_img\n";
+        std::cout << "  compresses all files with .tiff or .tif extensions to terse files with .trs extensions, and expands terse files to tiff files.\n";
+        std::cout << "Examples:\n";
+        std::cout << "   terse *                   // all tiff files in this directory are compressed to terse files and all terse files are expanded to tiff files.\n";
+        std::cout << "   terse ˜/dir/my_img*.tiff  // compresses all tiff files in the directory ~/dir that start with my_img\n";
+        std::cout << "   terse ˜/dir/my_img*.trs   // expands all terse files in the directory ~/dir that start with my_img\n";
         std::cout << input.help() << std::endl;
         for (auto f : input.data())
             std::cout << "   input file: " << f << "\n";
+        return 0;
     }
 
-    const std::string input_extension = ".tiff";
-    const std::string output_extension = ".trs";
-    const std::vector<std::string> tiffs = input.data();
+//    std::vector<std::vector<std::uint16_t>> images;
+//    std::vector<Terse<uint64_t>> compressed_images;
     
-    for (const auto& filename : tiffs) {
+    // Reading in all images
+//    for (const auto& filename : input.data()) {
+//        fs::path entry = filename;
+//        const bool is_tif = entry.extension() == ".tiff" || entry.extension() == ".tif";
+//        if (fs::is_regular_file(entry) && (is_tif || entry.extension() == ".trs")) {
+//            const fs::path input_file_path = entry;
+//
+//            // Open input & output files.
+//            std::ifstream input_file(input_file_path, std::ios::binary);
+//            if (!input_file.is_open())
+//                std::cerr << "Failed to open input file " << input_file_path << std::endl;
+//            else {
+//                if (is_tif) { // read tif data and write out terse file
+//                    std::vector<uint16_t> img(512*512);
+//                    jpa::read_tiff_Medipix(input_file, img);
+//                    images.push_back(img);
+//                }
+//            }
+//        }
+//    }
+    
+    // Compressing images
+//    for (auto& img : images) {
+//        auto compressed = Terse(img);
+//        compressed_images.push_back(compressed);
+//    }
+//
+    
+    // Writing out .trs files
+//    for (int i = 0; const auto& filename : input.data()) {
+//        fs::path entry = filename;
+//        const fs::path output_file_path = entry.replace_extension(".trs");
+//        std::ofstream output_file(output_file_path, std::ios::binary);
+//        output_file << compressed_images[i++];
+//    }
+
+    for (const auto& filename : input.data()) {
         fs::path entry = filename;
-        if (fs::is_regular_file(entry) && entry.extension() == input_extension) {
+        const bool is_tif = entry.extension() == ".tiff" || entry.extension() == ".tif";
+        if (fs::is_regular_file(entry) && (is_tif || entry.extension() == ".trs")) {
             const fs::path input_file_path = entry;
-            const fs::path output_file_path = entry.replace_extension(output_extension);
-            
-            //while (fs::file_size(input_file_path) < (512*512*2 + 8)) {
-            //std::this_thread::sleep_for(std::chrono::milliseconds(10)); // wait 10 milliseconds to allow finishing file write
-            //}
-            
-            // Read input file.
+            const fs::path output_file_path = entry.replace_extension(is_tif ? ".trs" : ".tif");
+
+            // Open input & output files.
             std::ifstream input_file(input_file_path, std::ios::binary);
-            if (!input_file.is_open()) {
-                std::cerr << "Failed to open input file " << input_file_path << std::endl;
-                continue;
-            }
-            std::vector<std::uint16_t> input_data (512*512);
-            jpa::read_tiff_Medipix(input_file_path.string(), input_data);
-            
-            
-            // Write output file.
             std::ofstream output_file(output_file_path, std::ios::binary);
-            if (!output_file.is_open()) {
+            if (!input_file.is_open())
+                std::cerr << "Failed to open input file " << input_file_path << std::endl;
+            else if (!output_file.is_open())
                 std::cerr << "Failed to open output file " << output_file_path << std::endl;
-                continue;
+            else {
+                std::vector<std::uint16_t> img(512*512);
+                if (is_tif) { // read tif data and write out terse file
+                    jpa::read_tiff_Medipix(input_file, img);
+//                    for (int i=0; i<1000; ++i) {
+//                        auto plop = Terse(img);
+////                        plop.prolix(img.begin());
+//                    }
+
+                   output_file << Terse(img);
+                }
+                else { // read terse data and write out tiff file
+                    Terse(input_file).prolix(img.begin());
+                    jpa::write_tiff_Medipix(output_file, img);
+                }
+                output_file.close();
+                input_file.close();
+
+                // Delete input file.
+                fs::remove(input_file_path);
+                if (input.found("-verbose"))
+                    std::cout << "Compressed: " << input_file_path << std::endl;
             }
-            Terse compressed(input_data);
-            output_file << compressed;
-            output_file << compressed;
-            output_file.close();
-            input_file.close();
-            // Delete input file.
-            fs::remove(input_file_path);
-            std::cout << "Done processing file: " << input_file_path << std::endl;
         }
-        //std::this_thread::sleep_for(std::chrono::seconds(1));
     }
-    
     return 0;
 }
