@@ -35,7 +35,7 @@ https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sha
     terse ˜/dir/frame*.trs   // expands all terse files in the directory ~/dir that start with frame\n";
 
     ./terse -help "All available options will be printed"
-
+```
 
 
 ## ImageJ plugin for .trs format files
