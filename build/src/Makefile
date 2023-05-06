@@ -178,44 +178,6 @@ terse/fast:
 	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/build
 .PHONY : terse/fast
 
-# Convenience name for target.
-src/CMakeFiles/prolix.dir/rule:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/prolix.dir/rule
-.PHONY : src/CMakeFiles/prolix.dir/rule
-
-# Convenience name for target.
-prolix: src/CMakeFiles/prolix.dir/rule
-.PHONY : prolix
-
-# fast build rule for target.
-prolix/fast:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/build
-.PHONY : prolix/fast
-
-prolix.o: prolix.cpp.o
-.PHONY : prolix.o
-
-# target to build an object file
-prolix.cpp.o:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.o
-.PHONY : prolix.cpp.o
-
-prolix.i: prolix.cpp.i
-.PHONY : prolix.i
-
-# target to preprocess a source file
-prolix.cpp.i:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.i
-.PHONY : prolix.cpp.i
-
-prolix.s: prolix.cpp.s
-.PHONY : prolix.s
-
-# target to generate assembly for a file
-prolix.cpp.s:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.s
-.PHONY : prolix.cpp.s
-
 terse.o: terse.cpp.o
 .PHONY : terse.o
 
@@ -252,11 +214,7 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... prolix"
 	@echo "... terse"
-	@echo "... prolix.o"
-	@echo "... prolix.i"
-	@echo "... prolix.s"
 	@echo "... terse.o"
 	@echo "... terse.i"
 	@echo "... terse.s"

@@ -1,1 +1,1 @@
-/usr/bin/clang++ -g -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/terse.dir/terse.cpp.o -o terse 
+/usr/bin/clang++ -O3 -DNDEBUG -O3 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/terse.dir/terse.cpp.o -o terse 
