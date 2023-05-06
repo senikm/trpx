@@ -9,7 +9,7 @@ prolix(iterator) member function decompresses the data starting at the location 
 (which can also be a pointer). A Terse object is constructed by supplying it with uncompressed data or a
 stream that contains Terse data
 
-## How to run it
+## How to compile and run it
 
     git clone git@github.com:Senikm/terse.git 
 > Navigate to the project directory
@@ -25,19 +25,24 @@ https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sha
 
 ### Running compression and decompression with the provided build files (For MacOS only) or when compiled by the end-user
 
-> Compression
+> Compression and decompression
+``` c++
+
+    terse *                   // all tiff files in this directory are compressed to terse files and all terse files are expanded to tiff files
+
+    terse ˜/dir/frame*.tiff  // compresses all tiff files in the directory ~/dir that start with frame\n";
+
+    terse ˜/dir/frame*.trs   // expands all terse files in the directory ~/dir that start with frame\n";
 
     ./terse -help "All available options will be printed"
 
-> Decompression
-
-    ./prolix -help "All available options will be printed"
 
 
 ## ImageJ plugin for .trs format files
 
 > For compilation, use the java version that came with Fiji, to ensure java compatibility. Also make sure the ij-1.??.jar package is included in the compilation:
 > For example, compile with:
+
 
     Applications/Fiji.app/java/macosx/zulu8.60.0.21-ca-fx-jdk8.0.322-macosx_x64/jre/Contents/Home/bin/javac -cp /Applications/Fiji.app/jars/ij-1.53t.jar Terse_Reader.java
 
