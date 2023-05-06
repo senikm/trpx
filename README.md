@@ -1,9 +1,9 @@
-##  TERSE/PROLIX C++ Fast and Efficient diffraction data compressor
+##  TERSE C++ Fast and Lossless Diffraction Data Compressor
 
 
 The objective of this project is to develop an *efficient compression* technique for *diffraction data*.
 
-Terse<T> allows efficient and fast compression of integral diffraction data and other integral greyscale
+Terse<T> allows efficient and fast compression of integral diffraction data and other integral grayscale
 data into a Terse object that can be decoded by the member function Terse<T>::prolix(iterator). The
 prolix(iterator) member function decompresses the data starting at the location defined by 'iterator'
 (which can also be a pointer). A Terse object is constructed by supplying it with uncompressed data or a
@@ -23,7 +23,7 @@ stream that contains Terse data
 
 https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing
 
-## Running compression and decompression with the provided build files (For MacOS only) or when compiled by the end-user
+### Running compression and decompression with the provided build files (For MacOS only) or when compiled by the end-user
 
 > Compression
 
