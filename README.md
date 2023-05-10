@@ -21,11 +21,8 @@ stream that contains Terse data
     make 
 ```
 
-## Test dataset:
 
-https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing
-
-### Running compression and decompression with the provided build files (For MacOS only) or when compiled by the end-user
+### Running compression and decompression (MacOS build files are provided)
 
 > Compression and decompression
 ``` c++
@@ -61,4 +58,6 @@ https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sha
 > Then restart Fiji, and Terse Reader is in the plugins menu.
     
 
+### Test dataset:
 
+https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing
