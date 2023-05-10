@@ -30,11 +30,11 @@ https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sha
 > Compression and decompression
 ``` c++
 
-    terse *                   // all tiff files in this directory are compressed to terse files and all terse files are expanded to tiff files
+    ./terse *                   // all tiff files in this directory are compressed to terse files and all terse files are expanded to tiff files
 
-    terse ˜/dir/frame*.tiff  // compresses all tiff files in the directory ~/dir that start with frame\n";
+    ./terse ˜/dir/frame*.tiff  // compresses all tiff files in the directory ~/dir that start with frame\n";
 
-    terse ˜/dir/frame*.trs   // expands all terse files in the directory ~/dir that start with frame\n";
+    ./terse ˜/dir/frame*.trs   // expands all terse files in the directory ~/dir that start with frame\n";
 
     ./terse -help "All available options will be printed"
 ```
