@@ -1,15 +1,15 @@
 [
 {
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/src",
-  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -O3 -DNDEBUG -O3 -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/terse.dir/terse_main.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/terse_main.cpp",
-  "file": "/Users/matiny0000/Documents/PhD/terse/src/terse_main.cpp",
-  "output": "src/CMakeFiles/terse.dir/terse_main.cpp.o"
+  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -O3 -DNDEBUG -O3 -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/terse.dir/terse.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/terse.cpp",
+  "file": "/Users/matiny0000/Documents/PhD/terse/src/terse.cpp",
+  "output": "src/CMakeFiles/terse.dir/terse.cpp.o"
 },
 {
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/src",
-  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -O3 -DNDEBUG -O3 -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/prolix.dir/prolix_main.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/prolix_main.cpp",
-  "file": "/Users/matiny0000/Documents/PhD/terse/src/prolix_main.cpp",
-  "output": "src/CMakeFiles/prolix.dir/prolix_main.cpp.o"
+  "command": "/usr/bin/clang++  -I/Users/matiny0000/Documents/PhD/terse/include -O3 -DNDEBUG -O3 -std=gnu++20 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk -o CMakeFiles/prolix.dir/prolix.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/prolix.cpp",
+  "file": "/Users/matiny0000/Documents/PhD/terse/src/prolix.cpp",
+  "output": "src/CMakeFiles/prolix.dir/prolix.cpp.o"
 },
 {
   "directory": "/Users/matiny0000/Documents/PhD/terse/build/test",

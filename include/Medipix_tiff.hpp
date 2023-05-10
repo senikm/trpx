@@ -12,7 +12,6 @@
 #include <filesystem>
 #include <bit>
 #include <array>
-#include "Operators.hpp"
 
 // THIS IS NOT A GENERAL TIFF LIBRARY!
 //
@@ -105,14 +104,19 @@ namespace jpa {
 
 template <typename C> requires (requires (C& c) {std::begin(c), std::end(c), std::size(c);})
 std::array<std::size_t, 2> read_tiff_Medipix(std::ifstream& tiff, C& container) {
+    auto swap_bytes = [](auto const& val) {
+        if constexpr (sizeof(std::remove_reference_t<decltype(val)>) == 2) return ((val & 0xff) << 8) | ((val & 0xff00) >> 8);
+        else return ((val & 0xff) << 24) | ((val & 0xff00) << 8) | ((val & 0xff0000) >> 8) | ((val & 0xff000000) >> 24) ;
+    };
+
     if constexpr (std::is_integral_v<std::remove_cvref_t<decltype(container[0])>>) { // 1D container
         std::array<std::size_t, 2> dim{0, 0};
         int pixel_size(1);
         char header[8];
         tiff.read(header, 8);
         bool native = std::string_view(header, 2) == "II" && std::endian::native == std::endian::little;
-        auto as_uint16  = [native](char const& val) { uint16_t r = reinterpret_cast<uint16_t const&>(val); return native ? r : Operator::swap_bytes(r); };
-        auto as_uint32  = [native](char const& val) { uint32_t r = reinterpret_cast<uint32_t const&>(val); return native ? r : Operator::swap_bytes(r); };
+        auto as_uint16  = [&](char const& val) { uint16_t r = reinterpret_cast<uint16_t const&>(val); return native ? r : swap_bytes(r); };
+        auto as_uint32  = [&](char const& val) { uint32_t r = reinterpret_cast<uint32_t const&>(val); return native ? r : swap_bytes(r); };
         std::uint16_t fortytwo = as_uint16(header[2]);
         std::uint32_t data_size = as_uint32(header[4]);
         if ((header[0] != 'I' && header[0] != 'M') || header[0] != header[1] || fortytwo != 42) {
@@ -144,7 +148,7 @@ std::array<std::size_t, 2> read_tiff_Medipix(std::ifstream& tiff, C& container) 
             }
         }
         if (!buffered && !native)
-            std::for_each_n (std::begin(container), dim[0] * dim[1], [](auto& val) { val = Operator::swap_bytes(val); });
+            std::for_each_n (std::begin(container), dim[0] * dim[1], [&](auto& val) { val = swap_bytes(val); });
         else if (buffered) {
             if constexpr (requires (C& c) {c.resize(1);})
                 container.resize(dim[0] * dim[1]);
@@ -161,10 +165,10 @@ std::array<std::size_t, 2> read_tiff_Medipix(std::ifstream& tiff, C& container) 
                 std::copy_n(reinterpret_cast<uint32_t*>(buffer.data()), dim[0] * dim[1], container.begin());
             else if (!native && pixel_size == 2)
                 std::transform(reinterpret_cast<uint16_t*>(buffer.data()), reinterpret_cast<uint16_t*>(buffer.data()) + dim[0] * dim[1], container.begin(),
-                               [](auto const& val) {return Operator::swap_bytes(val);});
+                               [&](auto const& val) {return swap_bytes(val);});
             else if (!native && pixel_size == 4)
                 std::transform(reinterpret_cast<uint32_t*>(buffer.data()), reinterpret_cast<uint32_t*>(buffer.data()) + dim[0] * dim[1], container.begin(),
-                               [](auto const& val) {return Operator::swap_bytes(val);});
+                               [&](auto const& val) {return swap_bytes(val);});
         }
         return dim;
     }

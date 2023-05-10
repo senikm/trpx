@@ -192,53 +192,53 @@ prolix/fast:
 	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/build
 .PHONY : prolix/fast
 
-prolix_main.o: prolix_main.cpp.o
-.PHONY : prolix_main.o
+prolix.o: prolix.cpp.o
+.PHONY : prolix.o
 
 # target to build an object file
-prolix_main.cpp.o:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix_main.cpp.o
-.PHONY : prolix_main.cpp.o
+prolix.cpp.o:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.o
+.PHONY : prolix.cpp.o
 
-prolix_main.i: prolix_main.cpp.i
-.PHONY : prolix_main.i
+prolix.i: prolix.cpp.i
+.PHONY : prolix.i
 
 # target to preprocess a source file
-prolix_main.cpp.i:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix_main.cpp.i
-.PHONY : prolix_main.cpp.i
+prolix.cpp.i:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.i
+.PHONY : prolix.cpp.i
 
-prolix_main.s: prolix_main.cpp.s
-.PHONY : prolix_main.s
+prolix.s: prolix.cpp.s
+.PHONY : prolix.s
 
 # target to generate assembly for a file
-prolix_main.cpp.s:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix_main.cpp.s
-.PHONY : prolix_main.cpp.s
+prolix.cpp.s:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/prolix.dir/build.make src/CMakeFiles/prolix.dir/prolix.cpp.s
+.PHONY : prolix.cpp.s
 
-terse_main.o: terse_main.cpp.o
-.PHONY : terse_main.o
+terse.o: terse.cpp.o
+.PHONY : terse.o
 
 # target to build an object file
-terse_main.cpp.o:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse_main.cpp.o
-.PHONY : terse_main.cpp.o
+terse.cpp.o:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse.cpp.o
+.PHONY : terse.cpp.o
 
-terse_main.i: terse_main.cpp.i
-.PHONY : terse_main.i
+terse.i: terse.cpp.i
+.PHONY : terse.i
 
 # target to preprocess a source file
-terse_main.cpp.i:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse_main.cpp.i
-.PHONY : terse_main.cpp.i
+terse.cpp.i:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse.cpp.i
+.PHONY : terse.cpp.i
 
-terse_main.s: terse_main.cpp.s
-.PHONY : terse_main.s
+terse.s: terse.cpp.s
+.PHONY : terse.s
 
 # target to generate assembly for a file
-terse_main.cpp.s:
-	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse_main.cpp.s
-.PHONY : terse_main.cpp.s
+terse.cpp.s:
+	cd /Users/matiny0000/Documents/PhD/terse/build && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/terse.dir/build.make src/CMakeFiles/terse.dir/terse.cpp.s
+.PHONY : terse.cpp.s
 
 # Help Target
 help:
@@ -254,12 +254,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... prolix"
 	@echo "... terse"
-	@echo "... prolix_main.o"
-	@echo "... prolix_main.i"
-	@echo "... prolix_main.s"
-	@echo "... terse_main.o"
-	@echo "... terse_main.i"
-	@echo "... terse_main.s"
+	@echo "... prolix.o"
+	@echo "... prolix.i"
+	@echo "... prolix.s"
+	@echo "... terse.o"
+	@echo "... terse.i"
+	@echo "... terse.s"
 .PHONY : help
 
 

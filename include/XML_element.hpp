@@ -3,14 +3,13 @@
 //  XML_element
 //
 //  Created by Jan Pieter Abrahams on 17/05/2019.
-//  Copyright © 2019 Jan Pieter Abrahams. All rights reserved.
 //
 
 #ifndef XML_element_h
 #define XML_element_h
 
 #include <istream>
-#include <string>
+#include <sstream>
 #include <algorithm>
 
 // The XML_element class is derived from std::string. It scans an istream for an XML element with  a

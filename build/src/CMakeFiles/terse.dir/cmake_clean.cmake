@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/terse.dir/terse_main.cpp.o"
-  "CMakeFiles/terse.dir/terse_main.cpp.o.d"
+  "CMakeFiles/terse.dir/terse.cpp.o"
+  "CMakeFiles/terse.dir/terse.cpp.o.d"
   "terse"
   "terse.pdb"
 )

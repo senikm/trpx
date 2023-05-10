@@ -801,8 +801,6 @@ test/CMakeFiles/CompressTests.dir/terse_tests.cpp.o: /Users/matiny0000/Documents
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__filesystem/u8path.h \
   /Users/matiny0000/Documents/PhD/terse/include/Terse.hpp \
   /Users/matiny0000/Documents/PhD/terse/include/Bit_pointer.hpp \
-  /Users/matiny0000/Documents/PhD/terse/include/Operators.hpp \
-  /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/complex \
   /Users/matiny0000/Documents/PhD/terse/include/XML_element.hpp \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/numeric \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__numeric/accumulate.h \
@@ -845,8 +843,6 @@ test/CMakeFiles/CompressTests.dir/terse_tests.cpp.o: /Users/matiny0000/Documents
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__filesystem/directory_options.h:
-
-/Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/complex:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__algorithm/ranges_reverse.h:
 
@@ -1761,8 +1757,6 @@ test/CMakeFiles/CompressTests.dir/terse_tests.cpp.o: /Users/matiny0000/Documents
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__algorithm/ranges_rotate_copy.h:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/sys/_types/_int16_t.h:
-
-/Users/matiny0000/Documents/PhD/terse/include/Operators.hpp:
 
 /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/sys/_types/_id_t.h:
 

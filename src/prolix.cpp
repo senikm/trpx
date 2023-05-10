@@ -7,7 +7,7 @@
 
 #include <iostream>
 #include <chrono>
-#include "Terse_new.hpp"
+#include "Terse.hpp"
 #include "Command_line.hpp"
 #include "Medipix_tiff.hpp"
 

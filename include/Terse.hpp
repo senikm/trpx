@@ -3,7 +3,6 @@
 //  Terse
 //
 //  Created by Jan Pieter Abrahams on 30/04/2019.
-//  Copyright © 2019 Jan Pieter Abrahams. All rights reserved.
 //
 
 #ifndef Terse_h
@@ -246,7 +245,7 @@ private:
                     setbits |= *p;
                 else if constexpr (std::is_signed_v<decltype(setbits)>)
                     setbits |= std::abs(*p);
-            unsigned significant_bits = Operator::highest_set_bit(setbits);
+            unsigned significant_bits = _highest_set_bit(setbits);
             if (prevbits == significant_bits) {
                 (*bitp).set();
                 ++bitp;
@@ -281,6 +280,17 @@ private:
         terse_data.shrink_to_fit();
         return terse_data;
     }
+    
+    constexpr inline int _highest_set_bit(T val) noexcept {
+        if constexpr (std::is_signed_v<T>)
+            return (val == 0) ? 0 : 1 + highest_set_bit(std::make_unsigned_t<T> (abs(val)));
+        else {
+            int r=0;
+            for ( ; val; val>>=1, ++r);
+            return r;
+        }
+    }
+
 };
 
 

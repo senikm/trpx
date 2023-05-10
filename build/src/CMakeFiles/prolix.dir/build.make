@@ -72,28 +72,28 @@ include src/CMakeFiles/prolix.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/prolix.dir/flags.make
 
-src/CMakeFiles/prolix.dir/prolix_main.cpp.o: src/CMakeFiles/prolix.dir/flags.make
-src/CMakeFiles/prolix.dir/prolix_main.cpp.o: /Users/matiny0000/Documents/PhD/terse/src/prolix_main.cpp
-src/CMakeFiles/prolix.dir/prolix_main.cpp.o: src/CMakeFiles/prolix.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/prolix.dir/prolix_main.cpp.o"
-	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/prolix.dir/prolix_main.cpp.o -MF CMakeFiles/prolix.dir/prolix_main.cpp.o.d -o CMakeFiles/prolix.dir/prolix_main.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/prolix_main.cpp
+src/CMakeFiles/prolix.dir/prolix.cpp.o: src/CMakeFiles/prolix.dir/flags.make
+src/CMakeFiles/prolix.dir/prolix.cpp.o: /Users/matiny0000/Documents/PhD/terse/src/prolix.cpp
+src/CMakeFiles/prolix.dir/prolix.cpp.o: src/CMakeFiles/prolix.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/prolix.dir/prolix.cpp.o"
+	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/prolix.dir/prolix.cpp.o -MF CMakeFiles/prolix.dir/prolix.cpp.o.d -o CMakeFiles/prolix.dir/prolix.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/prolix.cpp
 
-src/CMakeFiles/prolix.dir/prolix_main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/prolix.dir/prolix_main.cpp.i"
-	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/matiny0000/Documents/PhD/terse/src/prolix_main.cpp > CMakeFiles/prolix.dir/prolix_main.cpp.i
+src/CMakeFiles/prolix.dir/prolix.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/prolix.dir/prolix.cpp.i"
+	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/matiny0000/Documents/PhD/terse/src/prolix.cpp > CMakeFiles/prolix.dir/prolix.cpp.i
 
-src/CMakeFiles/prolix.dir/prolix_main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/prolix.dir/prolix_main.cpp.s"
-	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/matiny0000/Documents/PhD/terse/src/prolix_main.cpp -o CMakeFiles/prolix.dir/prolix_main.cpp.s
+src/CMakeFiles/prolix.dir/prolix.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/prolix.dir/prolix.cpp.s"
+	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/matiny0000/Documents/PhD/terse/src/prolix.cpp -o CMakeFiles/prolix.dir/prolix.cpp.s
 
 # Object files for target prolix
 prolix_OBJECTS = \
-"CMakeFiles/prolix.dir/prolix_main.cpp.o"
+"CMakeFiles/prolix.dir/prolix.cpp.o"
 
 # External object files for target prolix
 prolix_EXTERNAL_OBJECTS =
 
-src/prolix: src/CMakeFiles/prolix.dir/prolix_main.cpp.o
+src/prolix: src/CMakeFiles/prolix.dir/prolix.cpp.o
 src/prolix: src/CMakeFiles/prolix.dir/build.make
 src/prolix: src/CMakeFiles/prolix.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable prolix"

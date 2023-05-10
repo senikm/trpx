@@ -3,7 +3,6 @@
 //  CL_parser
 //
 //  Created by Jan Pieter Abrahams on 25/07/2019.
-//  Copyright © 2019 Jan Pieter Abrahams. All rights reserved.
 //
 
 #ifndef CL_parser_h
