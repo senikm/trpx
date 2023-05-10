@@ -255,7 +255,7 @@ std::size_t write_tiff_Medipix(std::ofstream& tiff, auto const& data, std::size_
             header[1] = header[0] = 'M';
         reinterpret_cast<uint16_t&>(header[2]) = 42;
         reinterpret_cast<uint32_t&>(header[4]) = static_cast<uint32_t>(dim[0] * dim[1] * sizeof(TiffT) + 8);
-        char tiff_IDF[78];
+        std::array<char, 78> tiff_IDF{0};
         reinterpret_cast<uint16_t&>(tiff_IDF[0]) = 6;
         char* IDF_entry = &tiff_IDF[2];
         auto set_IDF  = [&IDF_entry](uint16_t tag, uint16_t type, uint32_t val) {
@@ -284,7 +284,7 @@ std::size_t write_tiff_Medipix(std::ofstream& tiff, auto const& data, std::size_
             TiffT tmp = data[i];
             tiff.write(reinterpret_cast<const char*>(&tmp), sizeof(TiffT));
         }
-        tiff.write(tiff_IDF, 78);
+        tiff.write(tiff_IDF.data(), 78);
         return dim[0] * dim[1];
     }
     

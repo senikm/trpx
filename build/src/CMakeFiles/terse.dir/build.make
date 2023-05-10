@@ -72,28 +72,28 @@ include src/CMakeFiles/terse.dir/progress.make
 # Include the compile flags for this target's objects.
 include src/CMakeFiles/terse.dir/flags.make
 
-src/CMakeFiles/terse.dir/terse.cpp.o: src/CMakeFiles/terse.dir/flags.make
-src/CMakeFiles/terse.dir/terse.cpp.o: /Users/matiny0000/Documents/PhD/terse/src/terse.cpp
-src/CMakeFiles/terse.dir/terse.cpp.o: src/CMakeFiles/terse.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/terse.dir/terse.cpp.o"
-	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/terse.dir/terse.cpp.o -MF CMakeFiles/terse.dir/terse.cpp.o.d -o CMakeFiles/terse.dir/terse.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/terse.cpp
+src/CMakeFiles/terse.dir/terse_main.cpp.o: src/CMakeFiles/terse.dir/flags.make
+src/CMakeFiles/terse.dir/terse_main.cpp.o: /Users/matiny0000/Documents/PhD/terse/src/terse_main.cpp
+src/CMakeFiles/terse.dir/terse_main.cpp.o: src/CMakeFiles/terse.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/terse.dir/terse_main.cpp.o"
+	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/terse.dir/terse_main.cpp.o -MF CMakeFiles/terse.dir/terse_main.cpp.o.d -o CMakeFiles/terse.dir/terse_main.cpp.o -c /Users/matiny0000/Documents/PhD/terse/src/terse_main.cpp
 
-src/CMakeFiles/terse.dir/terse.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/terse.dir/terse.cpp.i"
-	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/matiny0000/Documents/PhD/terse/src/terse.cpp > CMakeFiles/terse.dir/terse.cpp.i
+src/CMakeFiles/terse.dir/terse_main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/terse.dir/terse_main.cpp.i"
+	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/matiny0000/Documents/PhD/terse/src/terse_main.cpp > CMakeFiles/terse.dir/terse_main.cpp.i
 
-src/CMakeFiles/terse.dir/terse.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/terse.dir/terse.cpp.s"
-	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/matiny0000/Documents/PhD/terse/src/terse.cpp -o CMakeFiles/terse.dir/terse.cpp.s
+src/CMakeFiles/terse.dir/terse_main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/terse.dir/terse_main.cpp.s"
+	cd /Users/matiny0000/Documents/PhD/terse/build/src && /usr/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/matiny0000/Documents/PhD/terse/src/terse_main.cpp -o CMakeFiles/terse.dir/terse_main.cpp.s
 
 # Object files for target terse
 terse_OBJECTS = \
-"CMakeFiles/terse.dir/terse.cpp.o"
+"CMakeFiles/terse.dir/terse_main.cpp.o"
 
 # External object files for target terse
 terse_EXTERNAL_OBJECTS =
 
-src/terse: src/CMakeFiles/terse.dir/terse.cpp.o
+src/terse: src/CMakeFiles/terse.dir/terse_main.cpp.o
 src/terse: src/CMakeFiles/terse.dir/build.make
 src/terse: src/CMakeFiles/terse.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/matiny0000/Documents/PhD/terse/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable terse"

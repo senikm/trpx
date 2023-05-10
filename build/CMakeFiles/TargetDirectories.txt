@@ -5,6 +5,7 @@
 /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles/install/local.dir
 /Users/matiny0000/Documents/PhD/terse/build/CMakeFiles/install/strip.dir
 /Users/matiny0000/Documents/PhD/terse/build/src/CMakeFiles/terse.dir
+/Users/matiny0000/Documents/PhD/terse/build/src/CMakeFiles/prolix.dir
 /Users/matiny0000/Documents/PhD/terse/build/src/CMakeFiles/edit_cache.dir
 /Users/matiny0000/Documents/PhD/terse/build/src/CMakeFiles/rebuild_cache.dir
 /Users/matiny0000/Documents/PhD/terse/build/src/CMakeFiles/list_install_components.dir

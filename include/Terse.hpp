@@ -168,15 +168,8 @@ public:
                 std::fill(begin + from, begin + to, 0);
             else {
                 Bit_range<const T*> bitr(bitp, significant_bits);
-                if constexpr (std::is_integral<typename std::iterator_traits<Iterator>::value_type>::value) {
+                if constexpr (std::is_integral<typename std::iterator_traits<Iterator>::value_type>::value)
                     bitr.get_range(begin + from, begin + to);
-//                    if (is_signed() == std::is_signed_v<typename std::iterator_traits<Iterator>::value_type>)
-//                        for (auto i = from; i < to; ++i, bitr.next())
-//                            begin[i] = bitr;
-//                    else
-//                        for (auto i = from; i < to; ++i, bitr.next())
-//                            begin[i] = std::make_unsigned_t<typename std::iterator_traits<Iterator>::value_type>(bitr);
-                }
                 else if (!is_signed())
                     for (auto i = from; i < to; ++i, bitr.next())
                         begin[i] = double(uint64_t(bitr));
@@ -199,14 +192,15 @@ public:
         ostream << "block=\"" << data.d_block << "\" ";
         ostream << "memory_size=\"" << data.d_terse_data.size() * sizeof(T) << "\" ";
         ostream << "number_of_values=\"" << data.size() << "\"/>";
-        std::vector<uint8_t> buffer;
-        for (auto val : data.d_terse_data)
-            for (int i = 0; i != sizeof(T); ++i, val >>= 8)
-                buffer.push_back(uint8_t(val)) ;
-        ostream.write((char*)&buffer[0], buffer.size());
-//        for (auto val : data.d_terse_data)
-//            for (int i = 0; i != sizeof(T); ++i, val >>= 8)
-//                ostream << uint8_t(val);
+        if constexpr (std::is_same_v<T, uint8_t>)
+            ostream.write((char*)&data.d_terse_data[0], data.d_terse_data.size());
+        else {
+            std::vector<uint8_t> buffer;
+            for (auto val : data.d_terse_data)
+                for (int i = 0; i != sizeof(T); ++i, val >>= 8)
+                    buffer.push_back(uint8_t(val)) ;
+            ostream.write((char*)&buffer[0], buffer.size());
+        }
         ostream.flush();
         return ostream;
     };
@@ -226,15 +220,15 @@ private:
     d_terse_data([&]() {
         std::vector<uint8_t> buffer(std::stold(xmle.attribute("memory_size")), 0);
         istream.read((char*)&buffer[0], buffer.size());
-        std::vector<T> data(std::ceil(std::stold(xmle.attribute("memory_size")) / sizeof(T)), 0);
-        for (std::size_t j = 0; auto& val : data)
-            for (int i = 0; i < sizeof(T); ++i)
-                val |= T(buffer[j++]) << 8*i;
-
-//        for (auto& val : data)
-//            for (int i = 0; i < sizeof(T); ++i)
-//                val |= T(istream.get()) << 8*i;
-        return data;
+        if constexpr (std::is_same_v<T, uint8_t>)
+            return buffer;
+        else {
+            std::vector<T> data(std::ceil(std::stold(xmle.attribute("memory_size")) / sizeof(T)), 0);
+            for (std::size_t j = 0; auto& val : data)
+                for (int i = 0; i < sizeof(T); ++i)
+                    val |= T(buffer[j++]) << 8*i;
+            return data;
+        }
     } ())
     {};
 
@@ -276,8 +270,6 @@ private:
                 Bit_range<T*> r(bitp, significant_bits);
                 r.append_range(data, data + (to - from));
                 data += (to - from);
-//                for (auto i = from; i != to; ++i, r.next())
-//                    r |= *data++;
                 bitp = r.begin();
             }
             else if constexpr (std::is_same_v<std::random_access_iterator_tag, typename std::iterator_traits<Iterator>::iterator_category>)

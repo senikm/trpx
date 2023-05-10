@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/prolix.dir/prolix.cpp.o"
-  "CMakeFiles/prolix.dir/prolix.cpp.o.d"
+  "CMakeFiles/prolix.dir/prolix_main.cpp.o"
+  "CMakeFiles/prolix.dir/prolix_main.cpp.o.d"
   "prolix"
   "prolix.pdb"
 )
