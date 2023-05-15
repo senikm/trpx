@@ -58,10 +58,10 @@ stream that contains Terse data
 > Then restart Fiji, and Terse Reader is in the plugins menu.
 
 
-##Citation
+## Citation
 _______________
-
-  @software{
+```bibtex
+@software{
     TERSE Efficient compression of the diffraction data,
     authors = {Matinyan, Senik
     Abrahams, Jan Pieter},
@@ -72,7 +72,7 @@ _______________
     month = {5},
     year = {2023}
 }  
-
+``` xs
 ### Test dataset:
 
 https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing
