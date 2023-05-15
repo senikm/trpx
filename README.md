@@ -1,5 +1,7 @@
 ##  TERSE C++ Fast and Lossless Diffraction Data Compressor
 
+__
+
 
 The objective of this project is to develop an *efficient compression* technique for *diffraction data*.
 
@@ -10,6 +12,8 @@ prolix(iterator) member function decompresses the data starting at the location 
 stream that contains Terse data
 
 ## How to compile and run it
+
+___
 
     git clone git@github.com:Senikm/terse.git 
 > Navigate to the project directory
@@ -23,6 +27,8 @@ stream that contains Terse data
 
 
 ### Running compression and decompression (MacOS build files are provided)
+
+_____
 
 > Compression and decompression
 ``` c++
@@ -40,6 +46,8 @@ stream that contains Terse data
 
 
 ## ImageJ plugin for .trs format files
+
+______
 
 > For compilation, use the java version that came with Fiji, to ensure java compatibility. Also make sure the ij-1.??.jar package is included in the compilation:
 > For example, compile with:
@@ -59,8 +67,8 @@ stream that contains Terse data
 
 
 ## Citation
-_______________
-```bibtex
+_____________
+``` bibtex
 @software{
     TERSE Efficient compression of the diffraction data,
     authors = {Matinyan, Senik
@@ -72,7 +80,10 @@ _______________
     month = {5},
     year = {2023}
 }  
-``` xs
-### Test dataset:
+
+``` 
+## Test dataset:
+
+______
 
 https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing
