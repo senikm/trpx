@@ -1,0 +1,19 @@
+cff-version: 1.1.0
+message: If you use this software, please cite it using these metadata.
+title: TERSE Efficient compression of the diffraction data
+version: 1.0.0
+date-released: 2023-05-15
+authors:
+  - family-names: Matinyan
+    given-names: Senik 
+references:
+  - type: article
+    authors:
+      - family-names: Matinyan
+        given-names: Senik
+      - family-names: Abrahams
+        given-names: Jan Pieter
+    title: TERSE Efficient compression of the diffraction data
+    year: 2023
+    doi: https://doi.org/10.1101/2023.05.10.540139
+    journal: bioRxiv
