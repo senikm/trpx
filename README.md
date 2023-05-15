@@ -1,6 +1,6 @@
 ##  TERSE C++ Fast and Lossless Diffraction Data Compressor
 
-__
+___
 
 
 The objective of this project is to develop an *efficient compression* technique for *diffraction data*.
@@ -28,7 +28,7 @@ ___
 
 ### Running compression and decompression (MacOS build files are provided)
 
-_____
+___
 
 > Compression and decompression
 ``` c++
@@ -47,7 +47,7 @@ _____
 
 ## ImageJ plugin for .trs format files
 
-______
+____
 
 > For compilation, use the java version that came with Fiji, to ensure java compatibility. Also make sure the ij-1.??.jar package is included in the compilation:
 > For example, compile with:
@@ -67,7 +67,7 @@ ______
 
 
 ## Citation
-_____________
+____
 ``` bibtex
 @software{
     TERSE Efficient compression of the diffraction data,
@@ -84,6 +84,6 @@ _____________
 ``` 
 ## Test dataset:
 
-______
+___
 
 https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing
