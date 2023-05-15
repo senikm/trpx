@@ -69,7 +69,7 @@ ____
 ## Citation
 ____
 
-If you use our software in your research, please cite our paper using the following BibTeX entry:
+**If you use our software in your research, please cite our paper using the following BibTeX entry**:
 
 ``` bibtex
 @software{
