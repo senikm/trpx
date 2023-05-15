@@ -56,7 +56,22 @@ stream that contains Terse data
     cp Terse_Reader.jar /Applications/Fiji.app/plugins/.
 
 > Then restart Fiji, and Terse Reader is in the plugins menu.
-    
+
+
+##Citation
+_______________
+
+  @software{
+    TERSE Efficient compression of the diffraction data,
+    authors = {Matinyan, Senik
+    Abrahams, Jan Pieter},
+    doi = {https://doi.org/10.1101/2023.05.10.540139},
+    title = {{TERSE Efficient compression of the diffraction data}},
+    url = {https://github.com/Senikm/terse.git},
+    version = {1.0.0},
+    month = {5},
+    year = {2023}
+}  
 
 ### Test dataset:
 
