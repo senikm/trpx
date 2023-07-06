@@ -3,10 +3,15 @@
 //  Bit_pointer
 //
 //  Created by Jan Pieter Abrahams on 15/04/2019.
-
+//  Copyright © 2019 Jan Pieter Abrahams. All rights reserved.
+//
 
 #ifndef Bit_pointer_h
 #define Bit_pointer_h
+
+//#include <vector>
+//#include <type_traits>
+#include "Operators.hpp"
 
 // Bit<T>, Bit_pointer<T> and Bit_range<T> (where T is an iterator or pointer referring to an integral
 // type), are three classes that provide an alternative to std::vector<bool>, std::bitset and
@@ -127,11 +132,11 @@ public:
     };
     
     Bit_pointer(Iterator const offset, std::ptrdiff_t const bit) :
-    d_bit(int(bit & (sizeof(Type) * 8 - 1))),
+    d_bit(int(Operator::euclidian_remainder<sizeof(Type) * 8>(bit))),
     d_offset(offset + (bit - d_bit) / int(sizeof(Type) * 8)) {
         static_assert(std::is_integral_v<Type> && std::is_unsigned_v<Type>, "Bit_pointer requires a pointer to, or iterator of, an unsigned integral type");
     };
-
+    
     constexpr auto& operator=(Iterator const other)  {
         d_offset = other;
         d_bit = 0;
@@ -167,13 +172,13 @@ public:
     Bit_pointer& operator +=(std::ptrdiff_t const shift) noexcept {
         d_bit += shift;
         if ((d_bit >= (sizeof(*d_offset) * 8)) || (d_bit < 0)){
-            auto tmp = int(d_bit & std::ptrdiff_t(sizeof(Type) * 8 - 1));
-            d_offset = d_offset + (d_bit - tmp) / std::ptrdiff_t(sizeof(Type) * 8);
-            d_bit = tmp;
+            auto off_bit = Operator::euclidian_division<sizeof(Type) * 8>(d_bit);
+            d_offset = d_offset + off_bit.quot;
+            d_bit = int(off_bit.rem);
         }
         return *this;
     }
-
+    
     constexpr Bit_pointer const operator + (std::ptrdiff_t const shift) const noexcept { return Bit_pointer(d_offset, d_bit + shift);}
     Bit_pointer& operator -=(std::ptrdiff_t const shift) noexcept { return *this += - shift;}
     constexpr Bit_pointer const operator - (std::ptrdiff_t const shift) const noexcept { return Bit_pointer(d_offset, d_bit - shift);}

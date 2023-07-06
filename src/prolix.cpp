@@ -22,8 +22,8 @@ int main(int argc, char const* argv[]) {
         std::cout << "prolix [-help] [-verbose] [file ...]\n";
         std::cout << "  expands terse files to tiff files.\n";
         std::cout << "Examples:\n";
-        std::cout << "   terse *                   // all terse files with .trs extensions are expanded to tiff files with .tif extensions.\n";
-        std::cout << "   terse ˜/dir/my_img*  // compresses all tiff files in the directory ~/dir that start with my_img\n";
+        std::cout << "   prolix *                   // all terse files with .trs extensions are expanded to tiff files with .tif extensions.\n";
+        std::cout << "   prolix ˜/dir/my_img*  // compresses all tiff files in the directory ~/dir that start with my_img\n";
         std::cout << input.help() << std::endl;
         return 0;
     }

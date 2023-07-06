@@ -751,7 +751,9 @@ src/CMakeFiles/prolix.dir/prolix.cpp.o: \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__filesystem/recursive_directory_iterator.h \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/__filesystem/u8path.h \
   /Users/matiny0000/Documents/PhD/terse/include/Bit_pointer.hpp \
-  /Users/matiny0000/Documents/PhD/terse/include/XML_element.hpp \
+  /Users/matiny0000/Documents/PhD/terse/include/Operators.hpp \
+  /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/complex \
   /Library/Developer/CommandLineTools/SDKs/MacOSX13.3.sdk/usr/include/c++/v1/sstream \
+  /Users/matiny0000/Documents/PhD/terse/include/XML_element.hpp \
   /Users/matiny0000/Documents/PhD/terse/include/Command_line.hpp \
   /Users/matiny0000/Documents/PhD/terse/include/Medipix_tiff.hpp
