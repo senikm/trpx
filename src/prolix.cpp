@@ -9,7 +9,7 @@
 #include <chrono>
 #include "Terse.hpp"
 #include "Command_line.hpp"
-#include "Medipix_tiff.hpp"
+#include "tiff_library.hpp"
 
 namespace fs = std::filesystem;
 
@@ -47,13 +47,15 @@ int main(int argc, char const* argv[]) {
             else if (!output_file.is_open())
                 std::cerr << "Failed to open output file " << output_file_path << std::endl;
             else {
+                jpa::Grey_tif tif;
                 auto compressed = Terse(input_file);
                 IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
                 auto start_user_time = std::chrono::high_resolution_clock::now();
                 compressed.prolix(img.begin());
                 user_time += std::chrono::high_resolution_clock::now() - start_user_time;
                 auto start_IO_time = std::chrono::high_resolution_clock::now();
-                jpa::write_tiff_Medipix(output_file, img);
+                tif.push_back(img, {512,512});
+                output_file<<tif;
                 ++expanded_files;
                 IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
             }
