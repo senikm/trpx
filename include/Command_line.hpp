@@ -148,17 +148,17 @@ private:
     };
 };
 
-class Command_line : private std::vector<std::string const> {
+class Command_line : private std::vector<std::string> {
 public:
     template <typename ... KEY>
     Command_line(int argc, const char *argv[], KEY&& ... tag) :
     vector([&]{
-        vector<std::string const> r;
+        vector<std::string> r;
         for (int i=0; i<argc; ++i)
             r.push_back(argv[i]);
         return r;
     }()),
-    d_tags([&]{ std::vector<Command_line_tag const> r; (r.push_back(std::forward<KEY>(tag)), ...); return r; }())
+    d_tags([&]{ std::vector<Command_line_tag> r; (r.push_back(std::forward<KEY>(tag)), ...); return r; }())
     { };
     
     std::string const& app_name() const {return (*this)[0];}
@@ -233,7 +233,8 @@ public:
     }
     
 private:
-    std::vector<Command_line_tag const> const d_tags;
+    std::vector<Command_line_tag> const d_tags;
  };
 
 #endif /* CL_parser_h */
+

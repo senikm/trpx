@@ -51,8 +51,8 @@ int main(int argc, char const* argv[]) {
                 input_file>>tif;
                 IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
                 auto start_user_time = std::chrono::high_resolution_clock::now();
-                auto compressed = Terse<std::uint8_t>(tif);
-                compression_rate += compressed.terse_size() / (2 * 512.0 * 512.0);
+                auto compressed = Terse(tif);
+                compression_rate += compressed.terse_size() / (2 * 514.0 * 514.0);
                 ++compressed_files;
                 user_time += std::chrono::high_resolution_clock::now() - start_user_time;
                 auto start_IO_time = std::chrono::high_resolution_clock::now();

@@ -26,7 +26,7 @@ ___
 ```
 
 
-### Running compression and decompression (MacOS build files are provided)
+### Running compression and decompression
 
 ___
 

@@ -11,6 +11,7 @@
 
 #include <fstream>
 #include <vector>
+#include <cassert>
 #include "Bit_pointer.hpp"
 #include "XML_element.hpp"
 

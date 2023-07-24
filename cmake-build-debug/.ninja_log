@@ -1,0 +1,19 @@
+# ninja log v5
+1	803	1690210743972349927	test/googletest-main/googletest/CMakeFiles/gtest_main.dir/src/gtest_main.cc.o	77080e7ef0a2596
+1	946	1690210744115976617	test/googletest-main/googlemock/CMakeFiles/gmock_main.dir/src/gmock_main.cc.o	55e73897dd1a056e
+0	1075	1690210744242978449	src/CMakeFiles/terse.dir/terse.cpp.o	7c0b13b69a65f4a4
+0	1086	1690210744255565186	src/CMakeFiles/prolix.dir/prolix.cpp.o	74bb2172b4ac49d8
+0	1107	1690210744275579667	test/CMakeFiles/CompressTests.dir/terse_tests.cpp.o	8b9d5888bab7bcb0
+1075	1115	1690210744289906278	src/terse	67f8d49913e42384
+1087	1124	1690210744298616602	src/prolix	6ecd4c143ef8815c
+0	1576	1690210744736007917	test/googletest-main/googlemock/CMakeFiles/gmock.dir/src/gmock-all.cc.o	306a4b8d802e619c
+1	3682	1690210746841241909	test/googletest-main/googletest/CMakeFiles/gtest.dir/src/gtest-all.cc.o	3ed1cbb5918bd4a0
+3682	3731	1690210746907035000	lib/libgtest.a	8368c24d8a405336
+3731	3760	1690210746936398000	lib/libgtest_main.a	ce246455a817d214
+3731	3761	1690210746937308000	lib/libgmock.a	548400014f8e014d
+3761	3791	1690210746966635000	lib/libgmock_main.a	9ce2d86cda507d0
+3760	3799	1690210746973736610	test/CompressTests	ad184bda3004a6bf
+8	1339	1690215068408162271	src/CMakeFiles/terse.dir/terse.cpp.o	7c0b13b69a65f4a4
+9	1354	1690215068423947046	src/CMakeFiles/prolix.dir/prolix.cpp.o	74bb2172b4ac49d8
+1339	1500	1690215068576700353	src/terse	67f8d49913e42384
+1354	1500	1690215068576707144	src/prolix	6ecd4c143ef8815c
