@@ -15,6 +15,7 @@
 #include "Bit_pointer.hpp"
 #include "XML_element.hpp"
 #include "Operators.hpp"
+#include <cassert>
 
 // Terse<T> allows efficient and fast compression of integral diffraction data and other integral greyscale
 // data into a Terse object that can be decoded by the member function Terse<T>::prolix(iterator). The
