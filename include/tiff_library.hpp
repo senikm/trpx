@@ -321,7 +321,6 @@ private:
     c_Raw_img const f_Raw_img(std::uint32_t& index) noexcept {
         std::array<std::ptrdiff_t,2> dim = {0,0};
         int bits_per_pixel = 0;
-        std::int32_t location = 0;
         unsigned char* cursor = d_data.data() + index;
         int const tag_count = f_int16<NATIVE>(cursor);
         std::int32_t rows_per_strip;
@@ -421,22 +420,32 @@ private:
     };
 };
 
+// Reads image data of the first image in a tif file into a container, and returns the dimensions
+// of this image, as read from the tif file. If the container is smaller than the tif file, the data
+// are not transferred into the container. If there is an error reading the file, a message on std::err
+// is written and {0, 0} is returned.
 template <typename C> requires (requires (C& c) {std::begin(c), std::end(c), std::size(c);})
 std::array<std::ptrdiff_t, 2> read_tiff_Medipix(std::filesystem::path const& path, C& container) {
     Grey_tif tif;
     std::string extension = path.extension();
     for (auto& c : extension)
         c = std::tolower(c);
-    if (is_regular_file(path) && (extension == ".tiff" || extension == ".tif")) {
+    if (!is_regular_file(path))
+        std::cerr << "Failed to open input file " << path << std::endl;
+    if (extension == ".tiff" || extension == ".tif") {
         std::ifstream is(path, std::ios::binary);
         if (!is.is_open())
             std::cerr << "Failed to open input file " << path << std::endl;
         else
             is >> tif;
+        if (tif.stack[0].size() <= container.size())
+            std::copy(tif.stack[0].begin(), tif.stack[0].end(), container.begin());
+        else
+            std::cerr << "Image too large for container; " << path << " has " << tif.stack[0].dim()[0] << "*"
+            << tif.stack[0].dim()[1] << " pixels. The size of the container is: " << container.size() << std::endl;
+        return tif.stack[0].dim();
     }
-    assert(tif.stack[0].size() == container.size());
-    std::copy(tif.stack[0].begin(), tif.stack[0].end(), container.begin());
-    return tif.stack[0].dim();
+    return {0,0};
 }
 } // namespace jpa
 #endif /* Grey_tif_h */

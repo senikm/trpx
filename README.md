@@ -1,21 +1,21 @@
-##  TERSE C++ Fast and Lossless Diffraction Data Compressor
+##  TERSE/PROLIX (TRPX) C++ Fast and Lossless Diffraction (cryo-EM) Data Compressor
 
 ___
 
 
-The objective of this project is to develop an *efficient compression* technique for *diffraction data*.
+The objective of this project is to develop an *efficient compression and decompression* technique for *diffraction data*.
 
-Terse<T> allows efficient and fast compression of integral diffraction data and other integral grayscale
-data into a Terse object that can be decoded by the member function Terse<T>::prolix(iterator). The
+TRPX allows efficient and fast compression of integral diffraction data and other integral grey scale
+data *(cryo-EM)* into a Terse object that can be decoded by the member function Terse<T>::prolix(iterator). The
 prolix(iterator) member function decompresses the data starting at the location defined by 'iterator'
 (which can also be a pointer). A Terse object is constructed by supplying it with uncompressed data or a
-stream that contains Terse data
+stream that contains TRPX data
 
 ## How to compile and run it
 
 ___
 
-    git clone git@github.com:Senikm/terse.git 
+    git clone git@github.com:Senikm/trpx.git 
 > Navigate to the project directory
 ```cmake
 
@@ -33,19 +33,19 @@ ___
 > Compression and decompression
 ``` c++
 
-    ./terse *                   // all tiff files in this directory are compressed to terse files 
+    ./terse *                   // all tiff files in this directory are compressed to trpx files 
     
-    ./prolix *                  // all terse files are expanded to tiff files
+    ./prolix *                  // all trpx files are expanded to tiff files
 
     ./terse ˜/dir/frame*.tiff  // compresses all tiff files in the directory ~/dir that start with frame\n"
 
-    ./prolix ˜/dir/frame*.trs   // expands all terse files in the directory ~/dir that start with frame\n"
+    ./prolix ˜/dir/frame*.trpx   // expands all trpx files in the directory ~/dir that start with frame\n"
 
     ./terse -help              // All available options will be printed
 ```
 
 
-## ImageJ plugin for .trs format files
+## ImageJ plugin for .trpx format files
 
 ____
 

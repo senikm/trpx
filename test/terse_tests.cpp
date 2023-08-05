@@ -15,7 +15,7 @@ public:
 TEST_F(TerseTests, testname1){
     std::vector<int> numbers(1000);            // Uncompressed data location
     std::iota(numbers.begin(), numbers.end(), -500);   // Fill with numbers -500, -499, ..., 499
-    Terse compressed(numbers);                      // Compress the data to less than 30% of memory
+    auto compressed = Terse(numbers);                      // Compress the data to less than 30% of memory
     std::cout << "compression rate " << float(compressed.terse_size()) / (numbers.size() * sizeof(unsigned))
               << std::endl;
     std::ofstream outfile("junk.terse");

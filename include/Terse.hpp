@@ -11,9 +11,10 @@
 
 #include <fstream>
 #include <vector>
-#include <cassert>
+#include <charconv>
 #include "Bit_pointer.hpp"
 #include "XML_element.hpp"
+#include "Operators.hpp"
 
 // Terse<T> allows efficient and fast compression of integral diffraction data and other integral greyscale
 // data into a Terse object that can be decoded by the member function Terse<T>::prolix(iterator). The
@@ -63,8 +64,9 @@
 //  Terse(std::ifstream& istream)
 //      Reads in a Terse object that has been written to a file by the overloaded Terse output operator '<<'.
 //  Terse(container_type const& data)
-//      Creates a Terse object from data (which can be a std::vector, Lattice, etc.). Only containers of
-//      integral types are allowed.
+//      Creates a Terse object from data (which can be a std::vector, Field, etc.). Only containers of
+//      integral types are allowed. If the container has a member function dim(), that will set the dimensions
+//      of the Terse object. Otherwise the dimensions can be set once using the dim(vector const&) member function.
 //  Terse(iterator begin, std::size_t size)
 //      Creates a Terse object given a starting iterator or pointer and the number of elements that need to be
 //      encoded.
@@ -81,13 +83,26 @@
 //      that are smaller in bits than bits_per_val().
 //  terse_size()
 //      Returns the number of bytes used for encoding the Terse data.
-//  prolix(iterator begin)
-//      Unpacks the Terse data starting from the location defined by 'begin'. Terse integral signed data cannot be
+//  void push_back(Iterator const begin, size_t const size)
+//  void push_back(container_type const& container)
+//      Adds another frame to the Terse object. The new frame is defined by its begin iterator and size, or by a
+//      reference to a container. The size must be the same as that of the frame used to create the Terse object.
+//      If the container has a member function dim(), that must return the same dimension as provided for the first frame.
+//  std::size_t const number_of_frames() const
+//      Returns the number of frames stored in the Terse object
+//  std::vector<std::size_t> const& dim() const
+//      Returns the dimensions of each of the Terse frames (all frames must have the same dimensions).
+//  std::vector<std::size_t> const& dim(std::vector<std::size_t> const& dim) {
+//      Sets the dimensions of the Terse frames. Since all frames must have the same dimensions, they can be set only once.
+//  void prolix(iterator begin)
+//      Unpacks the Terse data, storing it from the location defined by 'begin'. Terse integral signed data cannot be
 //      unpacked into integral unsigned data. Terse data cannot be decompressed into elements that are smaller
 //      in bits than bits_per_val(), but can be decompressed into larger values. Terse data can always be unpacked
 //      into signed intergral, double and float data and will have the correct sign (with one exception: an
 //      unsigned overflowed - all 1's - value will be unpacked as -1 signed value. As all other values are positive
 //      in this case, such a situation is easy to recognise).
+//  void prolix(container_type& container)
+//      Unpacks the Terse data and stores it in the provided container. Also checks the container is large enough.
 //
 // Operator overloads:
 //  Streamtype& operator<< (Streamtype &ostream, Terse const& data)
@@ -128,77 +143,124 @@
 //    498
 //    499
 
-template <typename T=uint64_t>
 class Terse {
 public:
     
     template <typename Container>
-    Terse(Container const& data) : Terse(data.begin(), data.size()) {};
-    
+    Terse(Container const& data) : Terse(data.begin(), data.size()) {
+        if constexpr(requires () {Container::dim();})
+            for (auto d : data.dim()) d_dim.push_back(d);
+    };
+
     template <typename Iterator>
     Terse(Iterator const data, size_t const size, unsigned int const block=12) :
     d_prolix_bits(sizeof(decltype(*data)) * 8),
     d_signed(std::is_signed_v<typename std::iterator_traits<Iterator>::value_type>),
     d_block(block),
-    d_size(size),
-    d_terse_data(_compress(data)) {}
+    d_size(size) {
+        d_terse_frames.push_back(0);
+        _compress(data);
+    }
     
     Terse(std::ifstream& istream) : Terse(istream, XML_element(istream, "Terse")) {};
     
     template <typename Iterator>
-    void prolix(Iterator begin) {
+    void push_back(Iterator const data, size_t const size) {
+        assert(this->size() == size); // each frame of a multi-Terse object must have the same size
+        d_terse_frames.push_back(0);
+        _compress(data);
+    }
+
+    template <typename Container>
+    void push_back(Container const& data) {
+        assert(this->size() == data.size()); // each frame of a multi-Terse object must have the same size
+        if constexpr(requires () {Container::dim();})
+            for (int i = 0; i != data.size(); ++i)
+                assert(d_dim[i] == data.dim()[i]);
+        d_terse_frames.push_back(0);
+        _compress(data.begin());
+    }
+
+    template <typename Container> requires requires (Container& c) {c.begin(), c.end(), c.size();}
+    void prolix(Container& data, std::size_t frame = 0) {
+        assert(this->size() == data.size());
+        if constexpr(requires () {Container::dim();})
+            for (int i = 0; i != data.size(); ++i)
+                assert(d_dim[i] == data.dim()[i]);
+        assert(frame < number_of_frames());
+        prolix(data.begin(), frame);
+    }
+    
+    template <typename Iterator> requires requires (Iterator& i) {*i;}
+    void prolix(Iterator begin, std::size_t frame = 0) {
+        assert(frame < number_of_frames());
+        std::uint8_t const* terse_begin = _find_terse_frame(frame);
         assert(d_prolix_bits <= (8 * sizeof(decltype(begin[0]))));
         assert(d_signed == std::is_signed_v<typename std::iterator_traits<Iterator>::value_type>);
-        Bit_pointer<const T*> bitp(d_terse_data.data());
+        Bit_pointer<const std::uint8_t*> bitp(terse_begin);
         uint8_t significant_bits = 0;
         for (size_t from = 0; from < size(); from += d_block) {
-            auto const to = std::min(size(), from + d_block);
             if (*bitp++ == 0) {
-                significant_bits = Bit_range<const T*>(bitp,3);
+                significant_bits = Bit_range<const std::uint8_t*>(bitp,3);
                 bitp += 3;
                 if (significant_bits == 7) {
-                    significant_bits += uint8_t(Bit_range<const T*>(bitp, 2));
+                    significant_bits += uint8_t(Bit_range<const std::uint8_t*>(bitp, 2));
                     bitp += 2;
                     if (significant_bits == 10) {
-                        significant_bits += uint8_t(Bit_range<const T*>(bitp, 6));
+                        significant_bits += uint8_t(Bit_range<const std::uint8_t*>(bitp, 6));
                         bitp += 6;
                     }
                 }
             }
             if (significant_bits == 0)
-                std::fill(begin + from, begin + to, 0);
+                std::fill(begin + from, begin + std::min(size(), from + d_block), 0);
             else {
-                Bit_range<const T*> bitr(bitp, significant_bits);
+                Bit_range<const std::uint8_t*> bitr(bitp, significant_bits);
                 if constexpr (std::is_integral<typename std::iterator_traits<Iterator>::value_type>::value)
-                    bitr.get_range(begin + from, begin + to);
+                    bitr.get_range(begin + from, begin + std::min(size(), from + d_block));
                 else if (!is_signed())
-                    for (auto i = from; i < to; ++i, bitr.next())
-                        begin[i] = double(uint64_t(bitr));
-                else for (auto i = from; i < to; ++i, bitr.next())
-                    begin[i] = double(int64_t(bitr));
+                    for (auto i = from, to = std::min(size(), from + d_block); i < to; ++i, bitr.next())
+                        begin[i] = double(std::uint64_t(bitr));
+                else for (auto i = from, to = std::min(size(), from + d_block); i < to; ++i, bitr.next())
+                    begin[i] = double(std::int64_t(bitr));
                 bitp = bitr.begin();
             }
         }
+        if (d_terse_frames.size() > frame)
+            d_terse_frames[frame + 1] = 1 + (bitp - Bit_pointer<const std::uint8_t*>(terse_begin)) / 8;
     }
 
     std::size_t const size() const {return d_size;}
+    std::size_t const number_of_frames() const {return d_terse_frames.size();}
+    std::vector<std::size_t> const& dim() const {return d_dim;}
+    std::vector<std::size_t> const& dim(std::vector<std::size_t> const& dim) {
+        assert(d_dim.size() == 0); // you cannot overwrite the dimensionality of a frame
+        return d_dim = dim;
+    }
     bool const is_signed() const {return d_signed;}
     unsigned const bits_per_val() const {return d_prolix_bits;}
-    std::size_t const terse_size() const {return d_terse_data.size() * sizeof(T);}
+    std::size_t const terse_size() const {return d_terse_data.size();}
     
     template <typename Streamtype>
     friend Streamtype& operator<< (Streamtype &ostream, Terse const& data){
-        ostream << "<Terse prolix_bits=\"" << data.d_prolix_bits << "\" ";
-        ostream << "signed=\"" << data.d_signed << "\" ";
-        ostream << "block=\"" << data.d_block << "\" ";
-        ostream << "memory_size=\"" << data.d_terse_data.size() * sizeof(T) << "\" ";
-        ostream << "number_of_values=\"" << data.size() << "\"/>";
-        if constexpr (std::is_same_v<T, uint8_t>)
+        ostream << "<Terse prolix_bits=\"" << data.d_prolix_bits << "\"";
+        ostream << " signed=\"" << data.d_signed << "\"";
+        ostream << " block=\"" << data.d_block << "\"";
+        ostream << " memory_size=\"" << data.d_terse_data.size() * sizeof(std::uint8_t) << "\"";
+        ostream << " number_of_values=\"" << data.size() << "\"";
+        if (data.d_dim.size() != 0) {
+            ostream << " dimensions=\"";
+            for (int i=0; i + 1 != data.dim().size(); ++i)
+                ostream << data.dim()[i] << " ";
+            ostream << data.dim().back() << "\"";
+        }
+        ostream << " number_of_frames=\"" << data.d_terse_frames.size() << "\"/>";
+        if constexpr (std::is_same_v<std::uint8_t, uint8_t>)
             ostream.write((char*)&data.d_terse_data[0], data.d_terse_data.size());
         else {
             std::vector<uint8_t> buffer;
             for (auto val : data.d_terse_data)
-                for (int i = 0; i != sizeof(T); ++i, val >>= 8)
+                for (int i = 0; i != sizeof(std::uint8_t); ++i, val >>= 8)
                     buffer.push_back(uint8_t(val)) ;
             ostream.write((char*)&buffer[0], buffer.size());
         }
@@ -211,32 +273,30 @@ private:
     bool const d_signed;
     unsigned const d_block;
     std::size_t const d_size;
-    std::vector<T> const d_terse_data;
-    
+    std::vector<std::size_t> d_dim;
+    std::vector<std::uint8_t> d_terse_data;
+    std::vector<std::size_t> d_terse_frames;
+
     Terse(std::ifstream& istream, XML_element const& xmle) :
     d_prolix_bits(unsigned(std::stoul(xmle.attribute("prolix_bits")))),
     d_signed(std::stoul(xmle.attribute("signed"))),
     d_block(int(std::stoul(xmle.attribute("block")))),
-    d_size(std::stoull(xmle.attribute("number_of_values"))),
-    d_terse_data([&]() {
-        std::vector<uint8_t> buffer(std::stold(xmle.attribute("memory_size")), 0);
-        istream.read((char*)&buffer[0], buffer.size());
-        if constexpr (std::is_same_v<T, uint8_t>)
-            return buffer;
-        else {
-            std::vector<T> data(std::ceil(std::stold(xmle.attribute("memory_size")) / sizeof(T)), 0);
-            for (std::size_t j = 0; auto& val : data)
-                for (int i = 0; i < sizeof(T); ++i)
-                    val |= T(buffer[j++]) << 8*i;
-            return data;
-        }
-    } ())
-    {};
-
+    d_size(std::stoull(xmle.attribute("number_of_values"))) {
+        std::string s = xmle.attribute("dimensions");
+        std::istringstream iss(s);
+        unsigned int val;
+        while (iss >> val)
+            d_dim.push_back(val);
+        d_terse_data.resize(std::stold(xmle.attribute("memory_size")));
+        istream.read((char*)&d_terse_data[0], d_terse_data.size());
+        d_terse_frames.resize(std::stoull(xmle.attribute("number_of_frames")), 0);
+    }
+    
     template <typename Iterator>
-    std::vector<T> const _compress(Iterator data) {
-        std::vector<T> terse_data(std::ceil(d_size * (sizeof(decltype(*data)) + (long double)(12.0) / (d_block * 8)) / sizeof(T)), 0);
-        Bit_pointer bitp (terse_data.data());
+    void const _compress(Iterator data) {
+        std::size_t prev_data_size = d_terse_data.size();
+        d_terse_data.resize(prev_data_size + std::ceil(d_size * (sizeof(decltype(*data)) + (long double)(12.0) / (d_block * 8)) / sizeof(std::uint8_t)), 0);
+        Bit_pointer bitp (d_terse_data.data() + prev_data_size);
         int prevbits = 0;
         for (size_t from = 0; from < d_size; from += d_block) {
             auto const to = std::min(d_size, from + d_block);
@@ -247,28 +307,28 @@ private:
                     setbits |= *p;
                 else if constexpr (std::is_signed_v<decltype(setbits)>)
                     setbits |= std::abs(*p);
-            unsigned significant_bits = Operator::highest_set_bit(setbits);
+            unsigned significant_bits = _highest_set_bit(setbits);
             if (prevbits == significant_bits) {
                 (*bitp).set();
                 ++bitp;
             }
             else {
                 if (significant_bits < 7) {
-                    Bit_range<T*>(++bitp, 3) |= significant_bits;
+                    Bit_range<std::uint8_t*>(++bitp, 3) |= significant_bits;
                     bitp += 3;
                 }
                 else if (significant_bits < 10) {
-                    Bit_range<T*>(++bitp, 5) |= 0b111 + ((significant_bits - 7) << 3);
+                    Bit_range<std::uint8_t*>(++bitp, 5) |= 0b111 + ((significant_bits - 7) << 3);
                     bitp += 5;
                 }
                 else {
-                    Bit_range<T*>(++bitp, 11) |= 0b11111 + ((significant_bits - 10) << 5);
+                    Bit_range<std::uint8_t*>(++bitp, 11) |= 0b11111 + ((significant_bits - 10) << 5);
                     bitp += 11;
                 }
                 prevbits = significant_bits;
             }
             if (significant_bits != 0) {
-                Bit_range<T*> r(bitp, significant_bits);
+                Bit_range<std::uint8_t*> r(bitp, significant_bits);
                 r.append_range(data, data + (to - from));
                 data += (to - from);
                 bitp = r.begin();
@@ -278,9 +338,44 @@ private:
             else
                 for (int i = 0; i != d_block; ++i, ++data);
         }
-        terse_data.resize(1 + (bitp - terse_data.data()) / (sizeof(T) * 8));
-        terse_data.shrink_to_fit();
-        return terse_data;
+        d_terse_data.resize(1 + (bitp - d_terse_data.data()) / (sizeof(std::uint8_t) * 8));
+        d_terse_data.shrink_to_fit();
+    }
+    
+    template <typename T0>
+    constexpr inline int const _highest_set_bit(T0 val) const noexcept {
+        if constexpr (std::is_signed_v<T0>)
+            return (val == 0) ? 0 : 1 + highest_set_bit(std::make_unsigned_t<T0> (abs(val)));
+        else {
+            int r=0;
+            for ( ; val; val>>=1, ++r);
+            return r;
+        }
+    }
+    
+    std::uint8_t const* _find_terse_frame(std::size_t frame) {
+        if (frame > 0 && d_terse_frames[frame] == 0) {
+            std::uint8_t const* terse_begin = _find_terse_frame(frame - 1);
+            Bit_pointer<const std::uint8_t*> bitp(terse_begin);
+            uint8_t significant_bits = 0;
+            for (size_t from = 0; from < size(); from += d_block) {
+                if (*bitp++ == 0) {
+                    significant_bits = Bit_range<const std::uint8_t*>(bitp,3);
+                    bitp += 3;
+                    if (significant_bits == 7) {
+                        significant_bits += uint8_t(Bit_range<const std::uint8_t*>(bitp, 2));
+                        bitp += 2;
+                        if (significant_bits == 10) {
+                            significant_bits += uint8_t(Bit_range<const std::uint8_t*>(bitp, 6));
+                            bitp += 6;
+                        }
+                    }
+                }
+                bitp += significant_bits * d_block;
+            }
+            d_terse_frames[frame] = 1 + (bitp - Bit_pointer<const std::uint8_t*>(terse_begin)) / 8;
+        }
+        return d_terse_data.data() + d_terse_frames[frame];
     }
 };
 

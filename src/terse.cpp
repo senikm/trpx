@@ -20,9 +20,9 @@ int main(int argc, char const* argv[]) {
     Command_line input(argc, argv, help, verbose, list_files);
     if (input.found("-help")) {
         std::cout << "terse [-help] [-verbose] [-list] [file ...]\n";
-        std::cout << "  compresses all files with .tiff or .tif extensions to terse files with .trs extensions.\n";
+        std::cout << "  compresses all files with .tiff or .tif extensions to terse files with .trpx extensions.\n";
         std::cout << "Examples:\n";
-        std::cout << "   terse *                   // all tiff files in this directory are compressed to terse files.\n";
+        std::cout << "   terse *                   // all tiff files in this directory are compressed to trpx files.\n";
         std::cout << "   terse ˜/dir/my_img*       // compresses all tiff files in the directory ~/dir that start with my_img\n";
         std::cout << input.help() << std::endl;
         return 0;
@@ -38,7 +38,7 @@ int main(int argc, char const* argv[]) {
         const bool is_tif = entry.extension() == ".tiff" || entry.extension() == ".tif";
         if (fs::is_regular_file(entry) && is_tif) {
             const fs::path input_file_path = entry;
-            const fs::path output_file_path = entry.replace_extension(".trs");
+            const fs::path output_file_path = entry.replace_extension(".trpx");
             auto start_IO_time = std::chrono::high_resolution_clock::now();
             std::ifstream input_file(input_file_path, std::ios::binary);
             std::ofstream output_file(output_file_path, std::ios::binary);
@@ -52,7 +52,7 @@ int main(int argc, char const* argv[]) {
                 IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
                 auto start_user_time = std::chrono::high_resolution_clock::now();
                 auto compressed = Terse(tif);
-                compression_rate += compressed.terse_size() / (2 * 514.0 * 514.0);
+                compression_rate += compressed.terse_size() / (2 * 512.0 * 512.0);
                 ++compressed_files;
                 user_time += std::chrono::high_resolution_clock::now() - start_user_time;
                 auto start_IO_time = std::chrono::high_resolution_clock::now();

@@ -7,8 +7,8 @@
 
 #include <iostream>
 #include <chrono>
-#include "Terse.hpp"
 #include "Command_line.hpp"
+#include "Terse.hpp"
 #include "tiff_library.hpp"
 
 namespace fs = std::filesystem;
@@ -20,10 +20,10 @@ int main(int argc, char const* argv[]) {
     Command_line input(argc, argv, help, verbose, list_files);
     if (input.found("-help")) {
         std::cout << "prolix [-help] [-verbose] [file ...]\n";
-        std::cout << "  expands terse files to tiff files.\n";
+        std::cout << "  expands trpx files to tiff files.\n";
         std::cout << "Examples:\n";
-        std::cout << "   prolix *                   // all terse files with .trs extensions are expanded to tiff files with .tif extensions.\n";
-        std::cout << "   prolix ˜/dir/my_img*  // compresses all tiff files in the directory ~/dir that start with my_img\n";
+        std::cout << "   prolix *                   // all TRPX files with .trpx extensions are expanded to tiff files with .tif extensions.\n";
+        std::cout << "   prolix ˜/dir/my_img*  // decompresses all trpx files in the directory ~/dir that start with my_img\n";
         std::cout << input.help() << std::endl;
         return 0;
     }
@@ -35,7 +35,7 @@ int main(int argc, char const* argv[]) {
 
     for (const auto& filename : input.data()) {
         fs::path entry = filename;
-        if (fs::is_regular_file(entry) && entry.extension() == ".trs") {
+        if (fs::is_regular_file(entry) && entry.extension() ==".trpx") {
             const fs::path input_file_path = entry;
             const fs::path output_file_path = entry.replace_extension(".tif");
 
