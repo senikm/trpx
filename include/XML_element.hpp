@@ -9,15 +9,15 @@
 #ifndef XML_element_h
 #define XML_element_h
 
-#include <istream>
-#include <string>
-#include <string_view>
 #include <limits>
 #include <algorithm>
-#include <variant>
+#include <vector>
+#include <sstream>
+
+
 
 // The XML_element class is derived from std::string. It scans an istream for an XML element with  a
-// specified tag. The element can contain attibutes and data. The tag itself is stripped and only its
+// specified tag. The element can contain attibutes and data. The tag itself is stripped and its
 // attributes and data can be accessed as a string or parsed further by constructing another XML_element.
 //
 // After reading the specified Element from istream, the istream is left in the condition that exists
@@ -103,6 +103,65 @@
 //    Subsequent output from this stream produces:
 //    </Element1>
 
+namespace jpa {
+
+/**
+ * @class XML_element
+ * @brief Represents an XML element with attributes and data.
+ *
+ * The XML_element class is derived from std::string and is used to parse and store XML data.
+ * It scans an input stream for an XML element with a specified tag, extracts its attributes,
+ * and stores the its XML data defined inside the element. The tag itself is stripped, and attributes
+ * and data can be accessed as strings. Or data can be parsed if they contain XML_elements.
+ *
+ * After reading the specified element from the input stream, the stream is left in a state that
+ * allows mixing XML with binary data. The stream is positioned at the first location after the closing '/>' tag
+ * of the requested XML_element. This can be the location where the binary data starts. For instance,
+ * after having read a XML metadata header, the file is positioned where the binary data starts.
+ *
+ * An example:
+ * @code{.cpp}
+ *    int main(int argc, const char * argv[]) {
+ *        std::string xml("<Element1 att0=\"plop\">\n  <Element2 att1=\"1\", att2=\"22\"/>\n</Element1>\n");
+ *        std::cout << "xml stream:\n" << xml << std::endl <<"Parsing produces:\n";
+ *        std::cout << "Element 1: " << XML_element(xml, "Element1") << std::endl;
+ *        std::cout << "Attribute att0 of element 1: " << XML_element(xml, "Element1").attribute("att0") << std::endl;
+ *        std::cout << "Attribute att1 of element 1 does not exist, so an empty string is returned: " << '\"' << XML_element(xml, "Element1").attribute("att1") << '\"' << std::endl;
+ *        std::cout << "Attribute att1 of element 2: " << XML_element(xml, "Element2").attribute("att1") << std::endl;
+ *        std::cout << "Attribute att2 of element 2: " << XML_element(xml, "Element2").attribute("att2") << std::endl;
+ *        std::istringstream xml_stream(xml);
+ *        XML_element(xml_stream, "Element2");
+ *        std::string rest;
+ *        xml_stream >> rest;
+ *        std::cout << "After reading Element2, the xml_stream is now located at the end of Element2. \nSubsequent output from this stream produces:\n"<< rest << std::endl;
+ *        return 0;
+ *    }
+ * @endcode
+ *
+ * Produces the following output:
+ * <pre>
+ *    xml stream:
+ *    <Element1 att0="plop">
+ *      <!-- comment " > -->
+ *      <values> 1 2 3 4 </values>
+ *      <Element2 att1="1", att2="22"/>
+ *    </Element1>
+ *
+ *    Parsing produces:
+ *    Element 1:
+ *      <!-- comment " > -->
+ *      <values> 1 2 3 4 </values>
+ *      <Element2 att1="1", att2="22"/>
+ *    Attribute att0 of element 1: plop
+ *    Attribute att1 of element 1 does not exist, so an empty string is returned: ""
+ *    Attribute att1 of element 2: 1
+ *    Attribute att2 of element 2: 22
+ *    After reading Element2, the xml_stream is now located at the end of Element2.
+ *    Subsequent output from this stream produces:
+ *    </Element1>
+ * </pre>
+ */
+
 class XML_element : public std::string {
     
     class s_param {
@@ -118,7 +177,7 @@ class XML_element : public std::string {
     public:
         s_param(s_param const& other) : s(other.s), from(other.from), size(other.size) {}
         constexpr auto& operator=(s_param const& other) noexcept {from = other.from; size = other.size; return *this;}
-
+        
         template <typename T>
         operator const T() const {
             T r;
@@ -126,7 +185,7 @@ class XML_element : public std::string {
             std::istringstream(s1) >> r;
             return r;
         }
-
+        
         operator const std::string() const { return std::string(s, from, size); }
         
         std::string const tag() const {
@@ -138,33 +197,102 @@ class XML_element : public std::string {
         
         operator  XML_element() const { return XML_element(std::string(*this), tag()); }
     };
-
+    
 public:
 
+    /**
+     * @brief Constructor for XML_element with specified tag.
+     *
+     * Constructs an XML_element by parsing XML data from the input stream 'istr' with the specified XML tag.
+     * When a character sequence '<' + tag + '>' is encountered, it checks if the element is empty (which
+     * is the case when the last two characters of the tag are '/>'), in which case it only stores the attributes. If
+     * the the tag is not empty, it scans for the end tag: '</' + tag + '>', and stores the data between the
+     * beginning and end tag. The input stream is left at the position immediately after the closing '>' character
+     * of the specified XML element. If no element is found, the file pointer is 'eof', and no data are store.
+     *
+     * @param istr The input stream containing the XML data.
+     * @param tag  The tag to search for in the XML data.
+     */
     XML_element(std::istream&& istr, std::string const& tag) :
     std::string(),
     d_tag(tag),
-    d_attributes(_get_attributes(istr)) {
-        if (istr.good() && !_prev_is(istr, "/>") && d_tag_found) { // only do if this is not an empty element
-            static_cast<std::string&>(*this) = _read_element(istr, tag);
-            d_param = _find_all_params(std::string(*this));
+    d_attributes(f_get_attributes(istr)) {
+        if (istr.good() && !f_prev_is(istr, "/>") && d_tag_found) { // only do if this is not an empty element
+            static_cast<std::string&>(*this) = f_read_element(istr, tag);
+            d_param = f_find_all_params(std::string(*this));
         }
     }
+    
+    /**
+     * @brief Constructor for XML_element with specified tag.
+     *
+     * @see XML_element(std::istream&& istr, std::string const& tag)
+     * @param istr The input stream containing the XML data.
+     * @param tag  The tag to search for in the XML data.
+     */
+    XML_element(std::istream& istr, std::string const& tag) : XML_element(std::move(istr), tag)  {}
+    
+    /**
+     * @brief Constructor for XML_element with specified tag.
+     *
+     * Constructs an XML_element by parsing XML data from the input string 'xml_string' with the specified
+     * XML tag.
+     *
+     * @see XML_element(std::istream&& istr, std::string const& tag)
+     * @param xml_string The input string containing the XML data.
+     * @param tag  The tag to search for in the XML data.
+     */
+    XML_element(std::string const& xml_string, std::string const& tag) : XML_element(std::istringstream(xml_string), tag)  {}
 
+    
+    /**
+     * @brief Constructor for XML_element without specifying the tag.
+     *
+     * Constructs an XML_element by parsing XML data from the input stream 'istr' without specifying a tag.
+     * The tag is determined by searching for the first valid XML tag in the input stream.
+     *
+     * @see XML_element(std::istream&& istr, std::string const& tag)
+     * @param istr The input stream containing the XML data.
+     */
     XML_element(std::istream&& istr) :
     XML_element(std::move(istr), std::string([&] {
-        _read_upto(istr, '<');
+        f_read_upto(istr, '<');
         auto tag_start = istr.tellg() - std::basic_istream<char>::pos_type(1);
-        std::string tag = _read_upto_any_of(istr, "/> ");
+        std::string tag = f_read_upto_any_of(istr, "/> ");
         istr.seekg(tag_start);
         return tag;
     }())) {}
-
-    XML_element(std::istream& istr, std::string const& tag) : XML_element(std::move(istr), tag)  {}
+    
+    /**
+     * @brief Constructor for XML_element without specifying the tag.
+     *
+     * Constructs an XML_element by parsing XML data from the input stream 'istr' without specifying a tag.
+     * The tag is determined by searching for the first valid XML tag in the input stream.
+     *
+     * @see XML_element(std::istream&& istr, std::string const& tag)
+     * @param istr The input stream containing the XML data.
+     */
     XML_element(std::istream& istr) : XML_element(std::move(istr))  {}
-    XML_element(std::string const& xml_string, std::string const& tag) : XML_element(std::istringstream(xml_string), tag)  {}
+    
+    /**
+     * @brief Constructor for XML_element without specifying the tag.
+     *
+     * Constructs an XML_element by parsing XML data from the input string 'istr' without specifying a tag.
+     * The tag is determined by searching for the first valid XML tag in the input stream.
+     *
+     * @see XML_element(std::istream&& istr, std::string const& tag)
+     * @param xml_string The input string containing the XML data.
+     */
     XML_element(std::string const& xml_string) : XML_element(std::istringstream(xml_string))  {}
-
+    
+    /**
+     * @brief Retrieves the attribute value by name.
+     *
+     * Returns the attribute value with the specified 'name' from the XML element's attributes.
+     *
+     * @param name The name of the attribute to retrieve.
+     * @return     The attribute value or an empty string if the attribute is not found.
+     */
     std::string const attribute(std::string const& name) const noexcept {
         for (int i = 0; i <= (d_attributes.size() - name.size() - 3); ++i) {
             if ((d_attributes[i + name.size()] == '=') && (name == d_attributes.substr(i, name.size()))) {
@@ -177,7 +305,15 @@ public:
         }
         return "";
     }
-
+    
+    /**
+     * @brief Retrieves an attribute value by index.
+     *
+     * Returns the attribute value at the specified index 'n' from the XML element's attributes.
+     *
+     * @param n The index of the attribute to retrieve.
+     * @return  The attribute value or an empty string if the index is out of bounds.
+     */
     std::string const attribute(std::size_t const& n) const noexcept {
         std::string r;
         std::size_t i=0;
@@ -191,9 +327,37 @@ public:
         }
         return r;
     }
-
-    std::string tag() {return d_tag;}
     
+    /**
+     * @brief Retrieves the tag name of the XML_element.
+     *
+     * Returns the tag name of the XML_element that was used to extract it from the XML data.
+     *
+     * @return The tag name of the XML element or an empty string if no tag was specified.
+     */
+    std::string const& tag() const noexcept {return d_tag;}
+ 
+    /**
+     * @brief Retrieves an XML element by tag name.
+     *
+     * Returns the first XML element with the specified 'tag' as an XML_element.
+     *
+     * @param tag   The tag name to search for.
+     * @return      An XML_element containing the first matching element.
+     */
+    XML_element const tag(std::string const& tag) const noexcept { return multitag(tag, 1)[0]; }
+
+    /**
+     * @brief Retrieves multiple XML elements with the same tag.
+     *
+     * Returns a vector containing all XML elements with the specified 'tag' found in the parsed data,
+     * up to a maximum of 'max_tags', if this is provided. If max_tags is not provided, all
+     * XML_elements in the stream are returned.
+     *
+     * @param tag       The tag name to search for.
+     * @param max_tags  The maximum number of elements to retrieve. Default is -1 (no limit).
+     * @return          A vector of XML elements with the specified tag.
+     */
     std::vector<XML_element> const multitag(std::string const& tag, std::size_t max_tags = -1) const noexcept {
         std::vector<XML_element> r;
         for (int i=0; (max_tags != 0) && (i != d_param.size()); ++i)
@@ -203,7 +367,22 @@ public:
             }
         return r;
     }
-
+    
+    /**
+     * @brief Retrieves values from an XML element that are defined by the first occurence of a specified tag.
+     *
+     * Returns a vector containing the values of type 'T' parsed from the XML element with the specified 'tag'.
+     * If no matching elements are found, an empty vector is returned. For example:
+     * @code{.cpp}
+     * std::string xml = "<img> <size> 512  512  </size></img>";
+     * std::vector<int> val = XML_element(xml).value<int>("size");
+     * assert(val[1] == 512 && val[1] == 512);
+     * @endcode
+    *
+     * @tparam T    The type of values to retrieve.
+     * @param tag   The tag name to search for.
+     * @return      A vector of values of type 'T'.
+     */
     template <typename T>
     std::vector<T> const value(std::string const& tag) const noexcept {
         auto tmp = multitag(tag, 1);
@@ -212,7 +391,24 @@ public:
         else
             return tmp[0];
     }
-
+    
+    /**
+     * @brief Retrieves values from an XML element that are defined by some or all instances of a specified tag.
+     *
+     * Returns a vector of vectors containing the values of type 'T' parsed from the XML element with the specified 'tag'.
+     * If no matching elements are found, an empty vector is returned. For example:
+     *
+     * @code{.cpp}
+     * std::string xml = "<img> <dead_pix> 2  50  </dead_pix><dead_pix> 3 49  </dead_pix></img>"
+     * std::vector<std::vector<int>> vals = XML_element(xml).multivalue<int>("dead_pix");
+     * assert(vals[0][0] == 2 && vals[1][1] == 49);
+     * @endcode
+     *
+     * @tparam T    The type of values to retrieve.
+     * @param tag   The tag name to search for.
+     * @param max_tags   The maximum instances of 'tag' to consider; if -1 or not specidfies, all occurences are considered.
+     * @return      A vector of vectors of values of type 'T'.
+     */
     template <typename T>
     std::vector<std::vector<T>> const multivalue(std::string const& tag, std::size_t max_tags = -1) const noexcept {
         std::vector<std::vector<T>> r;
@@ -221,29 +417,20 @@ public:
             r.push_back(t);
         return r;
     }
-
-    XML_element const tag(std::string const& tag) const noexcept { return multitag(tag, 1)[0]; }
-
-    template <typename T>
-    operator std::vector<T>() const {
-        std::vector<T> r;
-        std::istringstream str(std::string(*this));
-        for (T tmp; (str >> tmp).good(); ) r.push_back(tmp);
-        return r;
-    }
-        
+    
+    
 private:
     std::vector<s_param> d_param;
     std::string const d_tag;
     bool d_tag_found = false;
     std::string d_attributes;
-
-    std::string _get_attributes(std::istream& istr) {
+    
+    std::string f_get_attributes(std::istream& istr) {
         if (d_tag == "")
             return "";
-        _find_tag(istr, d_tag);
+        f_find_tag(istr, d_tag);
         if (d_tag_found) {
-            std::string r = std::string(_read_upto(istr, '>'), d_tag.size() + 1);
+            std::string r = std::string(f_read_upto(istr, '>'), d_tag.size() + 1);
             r.pop_back();
             if ((r.size() > 1) && (r.back() == '/'))
                 r.pop_back();
@@ -251,24 +438,24 @@ private:
         }
         return "";
     }
-
-    void _find_tag(std::istream& istr, std::string const& tag) {
+    
+    void f_find_tag(std::istream& istr, std::string const& tag) {
         static auto const all = std::numeric_limits<std::streamsize>::max();
-        for (istr.ignore(all, '<'); istr.good() && !_next_is(istr, tag); istr.ignore(all, '<')) {
-            if (_next_is(istr, "![CDATA["))
-                for (_read_upto(istr, ']'); istr.good() && !_next_is(istr, "]>"); _read_upto(istr, ']'));
-            else if (_next_is(istr, "!--"))
-                for (_read_upto(istr, '-'); istr.good() && !_next_is(istr, "->"); _read_upto(istr, '-'));
+        for (istr.ignore(all, '<'); istr.good() && !f_next_is(istr, tag); istr.ignore(all, '<')) {
+            if (f_next_is(istr, "![CDATA["))
+                for (f_read_upto(istr, ']'); istr.good() && !f_next_is(istr, "]>"); f_read_upto(istr, ']'));
+            else if (f_next_is(istr, "!--"))
+                for (f_read_upto(istr, '-'); istr.good() && !f_next_is(istr, "->"); f_read_upto(istr, '-'));
         }
         if (istr.good())
             d_tag_found = true;
     }
-
-    std::vector<s_param> _find_comments_and_data(std::string const& s) {
+    
+    std::vector<s_param> f_find_comments_and_data(std::string const& s) {
         std::vector<s_param> r;
-        for (s_param p = _find_interval(s, "<!--", "-->"); p.from  != std::string::npos; p = _find_interval(s, "<!--", "-->", p.to()))
+        for (s_param p = f_find_interval(s, "<!--", "-->"); p.from  != std::string::npos; p = f_find_interval(s, "<!--", "-->", p.to()))
             r.push_back(p);
-        for (s_param p = _find_interval(s, "<![CDATA[", "]]>"); p.from  != std::string::npos; p = _find_interval(s, "<![CDATA[", "]]>", p.to()))
+        for (s_param p = f_find_interval(s, "<![CDATA[", "]]>"); p.from  != std::string::npos; p = f_find_interval(s, "<![CDATA[", "]]>", p.to()))
             r.push_back(p);
         std::sort(r.begin(), r.end(), [](s_param const& left, s_param const& right) {return left.from < right.from;});
         for (int i = 0; i!=r.size(); ++i)
@@ -277,12 +464,12 @@ private:
         return r;
     }
     
-    std::vector<s_param> _find_all_params(std::string const& s) {
-        std::vector<s_param> skip = _find_comments_and_data(s);
+    std::vector<s_param> f_find_all_params(std::string const& s) {
+        std::vector<s_param> skip = f_find_comments_and_data(s);
         std::vector<s_param> r;
-        for (s_param param(*this, _ignore(s, 0, skip), 1); param.from < s.size(); param.from = _ignore(s, param.to(), skip)) {
+        for (s_param param(*this, f_ignore(s, 0, skip), 1); param.from < s.size(); param.from = f_ignore(s, param.to(), skip)) {
             if (s[param.from] != '<') {
-                for (param.size = 1; !_is_white(s[param.to()]) && (s[param.to()] != '<'); ++param.size);
+                for (param.size = 1; !f_is_white(s[param.to()]) && (s[param.to()] != '<'); ++param.size);
                 r.push_back(param);
             }
             else {
@@ -305,7 +492,7 @@ private:
         return r;
     }
     
-    s_param _find_interval(std::string const& s, std::string const& from, std::string const& to, std::size_t pos = 0) {
+    s_param f_find_interval(std::string const& s, std::string const& from, std::string const& to, std::size_t pos = 0) {
         std::size_t param_start = s.find(from, pos);
         if (param_start == std::string::npos)
             return s_param(*this, param_start, 0);
@@ -313,13 +500,12 @@ private:
             return s_param(*this, param_start, s.find(to, param_start + from.size()) - param_start + to.size());
     }
     
-    std::size_t _ignore(std::string const& s, std::size_t pos, std::vector<s_param> skip = std::vector<s_param>()) {
+    std::size_t f_ignore(std::string const& s, std::size_t pos, std::vector<s_param> skip = std::vector<s_param>()) {
         std::size_t start = pos;
-        pos = start - 1;
         std::size_t i = 0;
         do {
             pos = start;
-            while (_is_white(s[start]) && (start < s.size()))
+            while (f_is_white(s[start]) && (start < s.size()))
                 ++start;
             for ( ; (i != skip.size()) && (start >= skip[i].from); ++i)
                 if ((start >= skip[i].from) && (start < skip[i].to()))
@@ -327,34 +513,36 @@ private:
         } while ((pos != start) && (start < s.size()));
         return start;
     }
-
-    std::string _read_upto(std::istream& istr, char const c) {
+    
+    std::string f_read_upto(std::istream& istr, char const c) {
         std::string r;
         for (r.push_back(istr.get()); istr.good() && (r.back() != c); r.push_back(istr.get()));
         return r;
     }
     
-    std::string _read_upto_any_of(std::istream& istr, std::string const& stop) {
+    std::string f_read_upto_any_of(std::istream& istr, std::string const& stop) {
         std::string r;
-        for (r.push_back(istr.get()); istr.good() && (stop.find(r.back()) == std::string::npos); r.push_back(istr.get()));
+        for (r.push_back(istr.get()); istr.good() && (stop.find(r.back()) == std::string::npos);
+             r.push_back(istr.get()));
+        r.pop_back();
         return r;
     }
     
-    std::string _read_element(std::istream& istr, std::string const& tag) {
-        std::string element = _read_upto(istr, '<');
-        for (; !_next_is(istr, '/' + tag + '>'); element += _read_upto(istr, '<')) {
-            if (_next_is(istr, "![CDATA["))
-                for (element += _read_upto(istr, '>'); !element.compare(element.size() - 3, 3, "]]>"); element += _read_upto(istr, '>'));
-            else if (_next_is(istr, "!--"))
-                for (element += _read_upto(istr, '>'); !element.compare(element.size() - 3, 3,"-->"); element += _read_upto(istr, '>'));
+    std::string f_read_element(std::istream& istr, std::string const& tag) {
+        std::string element = f_read_upto(istr, '<');
+        for (; !f_next_is(istr, '/' + tag + '>'); element += f_read_upto(istr, '<')) {
+            if (f_next_is(istr, "![CDATA["))
+                for (element += f_read_upto(istr, '>'); !element.compare(element.size() - 3, 3, "]]>"); element += f_read_upto(istr, '>'));
+            else if (f_next_is(istr, "!--"))
+                for (element += f_read_upto(istr, '>'); !element.compare(element.size() - 3, 3,"-->"); element += f_read_upto(istr, '>'));
         }
         element.pop_back();
         return element;
     }
     
-    bool _is_white(char const c) const noexcept {return (c == 0x20) || (c==0x09) || (c==0x0D) || (c==0x0A);}
+    bool f_is_white(char const c) const noexcept {return (c == 0x20) || (c==0x09) || (c==0x0D) || (c==0x0A);}
     
-    bool _next_is(std::istream& istr, std::string const& s) {
+    bool f_next_is(std::istream& istr, std::string const& s) {
         std::string tst(s.size(), 0);
         if (istr.read(&tst[0], s.size())) {
             istr.seekg(-s.size(), std::ios_base::cur);
@@ -363,12 +551,22 @@ private:
         return d_tag_found = false; // Unable to read from the stream, so it's not a match
     }
     
-    bool _prev_is(std::istream& istr, std::string const& s) {
+    bool f_prev_is(std::istream& istr, std::string const& s) {
         std::string tst(s.size(), 0);
         istr.seekg(-s.size(), std::ios_base::cur);
         istr.read(&tst[0], s.size());
         return tst == s;
     }
+    
+    template <typename T>
+    operator std::vector<T>() const {
+        std::vector<T> r;
+        std::istringstream str(std::string(*this));
+        for (T tmp; (str >> tmp).good(); ) r.push_back(tmp);
+        return r;
+    }
 };
+
+}
 
 #endif /* XML_element_h */

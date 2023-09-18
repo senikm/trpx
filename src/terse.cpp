@@ -7,74 +7,130 @@
 
 #include <iostream>
 #include <chrono>
+#include <cmath>
+#include <filesystem>
 #include "Terse.hpp"
 #include "Command_line.hpp"
-#include "tiff_library.hpp"
+#include "Grey_tif.hpp"
 
 namespace fs = std::filesystem;
 
+template <typename T> void Terse_pushback(jpa::Terse&, jpa::Grey_tif_image<T> const&);
+
 int main(int argc, char const* argv[]) {
-    Command_line_tag help("-help", "print help");
-    Command_line_tag verbose("-verbose", "print compute times and compression rate");
-    Command_line_tag list_files("-list", "list compressed files");
-    Command_line input(argc, argv, help, verbose, list_files);
-    if (input.found("-help")) {
-        std::cout << "terse [-help] [-verbose] [-list] [file ...]\n";
+    using namespace jpa;
+    Command_line_option help("-help", "print help");
+    Command_line_option verbose("-verbose", "print compressed filenames, compute times and compression rate");
+    Command_line input(argc, argv, {help, verbose});
+    if (input.option("-help").found()) {
+        std::cout << "terse [-help] [-verbose] [file ...]\n";
         std::cout << "  compresses all files with .tiff or .tif extensions to terse files with .trpx extensions.\n";
         std::cout << "Examples:\n";
         std::cout << "   terse *                   // all tiff files in this directory are compressed to trpx files.\n";
         std::cout << "   terse ˜/dir/my_img*       // compresses all tiff files in the directory ~/dir that start with my_img\n";
+        std::cout << "\nkeywords:\n";
         std::cout << input.help() << std::endl;
         return 0;
     }
     
-    std::chrono::duration<double> user_time;
-    std::chrono::duration<double> IO_time;
-    double compression_rate = 0;
+    // Some timers and counters are required for the 'verbose' option.
+    std::chrono::duration<double> user_time(0);
+    std::chrono::duration<double> IO_time(0);
+    double total_trpx_size = 0;
+    double total_tiff_size = 0;
     std::size_t compressed_files = 0;
     
-    for (const auto& filename : input.data()) {
-        fs::path entry = filename;
-        const bool is_tif = entry.extension() == ".tiff" || entry.extension() == ".tif";
-        if (fs::is_regular_file(entry) && is_tif) {
-            const fs::path input_file_path = entry;
-            const fs::path output_file_path = entry.replace_extension(".trpx");
+    // Loop over all input file names
+    for (fs::path tif_filename : input.params()) {
+        
+        // Only tif files will be compressed
+        if (fs::is_regular_file(tif_filename) && (tif_filename.extension() == ".tiff" ||
+                                                  tif_filename.extension() == ".tif" ||
+                                                  tif_filename.extension() == ".TIFF" ||
+                                                  tif_filename.extension() == ".TIF")) {
+
+            // Start the IO timer and open the next file
             auto start_IO_time = std::chrono::high_resolution_clock::now();
-            std::ifstream input_file(input_file_path, std::ios::binary);
-            std::ofstream output_file(output_file_path, std::ios::binary);
-            if (!input_file.is_open())
-                std::cerr << "Failed to open input file " << input_file_path << std::endl;
-            else if (!output_file.is_open())
-                std::cerr << "Failed to open output file " << output_file_path << std::endl;
+            std::ifstream tif_file(tif_filename, std::ios::binary);
+            if (!tif_file.is_open())
+                std::cerr << "Failed to open input file " << tif_filename << std::endl;
             else {
-                jpa::Grey_tif tif;
-                input_file>>tif;
+                
+                // A tiff file was opened. Read its data. It may contain one or more images in a stack.
+                jpa::Grey_tif<std::byte> tif_data(tif_file);
+                tif_file.close();
+                    
+                total_tiff_size += tif_data.raw_data_size();
+                
+                // stop the IO timer, start the user timer
                 IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
                 auto start_user_time = std::chrono::high_resolution_clock::now();
-                auto compressed = Terse(tif);
-                compression_rate += compressed.terse_size() / (2 * 512.0 * 512.0);
-                ++compressed_files;
+                
+                Terse compressed;
+                
+                for (int i = 0; i != tif_data.image_stack_size(); ++i)
+                    if (tif_data.dim() == tif_data.image(i).dim())
+                        Terse_pushback(compressed, tif_data.image(i));
+                    else {
+                        std::cerr << "Tiff file " << tif_filename << " contains a stack of images with varying sizes." <<  std::endl;
+                        std::cerr << "Terse cannot process such tiff-stacks. First unstack this tiff file and compress the images separately." << std::endl;
+                        return 0;
+                    }
+                 total_trpx_size += compressed.terse_size();
+                
+                // Stop the user timer, start the IO timer
                 user_time += std::chrono::high_resolution_clock::now() - start_user_time;
-                auto start_IO_time = std::chrono::high_resolution_clock::now();
-                output_file << compressed;
-                IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
+                start_IO_time = std::chrono::high_resolution_clock::now();
+                
+                // Write the compressed data to the trpx file
+                auto trpx_filename = tif_filename;
+                std::ofstream trpx_file(trpx_filename.replace_extension(".trpx"), std::ios::binary);
+                if (!trpx_file.is_open())
+                    std::cerr << "Failed to open trpx file " << trpx_filename << std::endl;
+                else {
+                    compressed.write(trpx_file);
+                    trpx_file.close();
+                    fs::remove(tif_filename);
+                    ++compressed_files;
+                }
             }
-
-            // Close files and delete input file.
-            start_IO_time = std::chrono::high_resolution_clock::now();
-            output_file.close();
-            input_file.close();
-            fs::remove(input_file_path);
+            
+            // stop the IO timer
             IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
-            if (input.found("-list"))
-                std::cout << "Compressed: " << input_file_path << std::endl;
         }
     }
-    if (input.found("-verbose")) {
-        std::cout << "terse compressed: " << compressed_files << " files\n";
+    
+    // If required, provide verbose output
+    if (input.option("-verbose").found()) {
+        for (fs::path tif_filename : input.params()) 
+            std::cout << "Compressed: " << tif_filename << std::endl;
+        std::cout << "Terse compressed: " << compressed_files << " files\n";
         std::cout << "User time       : " << user_time.count() << " seconds\n";
         std::cout << "IO time         : " << IO_time.count() << " seconds\n";
-        std::cout << "compression rate: " << std::round(1000 * (1 - compression_rate / compressed_files)) / 10 << "%\n";
+        if (total_tiff_size > 0)
+            std::cout << "Compression rate: " << std::round(1000 * (1 - total_trpx_size / total_tiff_size)) / 10 << "%\n";
     }
     return 0;
+}
+
+template <typename T>
+void Terse_pushback(jpa::Terse& compressed, jpa::Grey_tif_image<T> const& img) {
+    using namespace jpa;
+    if constexpr (!std::is_same_v<T, std::byte>)
+        compressed.push_back(img);
+    else {
+        POD_type_traits const& img_type = img.type();
+        if      (img_type.is<std::int8_t>())   Terse_pushback<std::int8_t>  (compressed, img);
+        else if (img_type.is<std::uint8_t>())  Terse_pushback<std::uint8_t> (compressed, img);
+        else if (img_type.is<std::int16_t>())  Terse_pushback<std::int16_t> (compressed, img);
+        else if (img_type.is<std::uint16_t>()) Terse_pushback<std::uint16_t>(compressed, img);
+        else if (img_type.is<std::int32_t>())  Terse_pushback<std::int32_t> (compressed, img);
+        else if (img_type.is<std::uint32_t>()) Terse_pushback<std::uint32_t>(compressed, img);
+        else {
+            std::vector<int64_t> tmp(img.dim()[0] * img.dim()[1]);
+            if      (img_type.is<float>())  std::copy_n(Grey_tif_image<float const>(img).begin(),  tmp.size(), tmp.begin());
+            else if (img_type.is<double>()) std::copy_n(Grey_tif_image<double const>(img).begin(), tmp.size(), tmp.begin());
+            compressed.push_back(tmp);
+        }
+    }
 }

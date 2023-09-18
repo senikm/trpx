@@ -3,13 +3,13 @@
 ___
 
 
-The objective of this project is to develop an *efficient compression and decompression* technique for *diffraction data*.
+TRPX is an *efficient compression and decompression* algorithm for *diffraction data*.
 
 TRPX allows efficient and fast compression of integral diffraction data and other integral grey scale
 data *(cryo-EM)* into a Terse object that can be decoded by the member function Terse<T>::prolix(iterator). The
 prolix(iterator) member function decompresses the data starting at the location defined by 'iterator'
 (which can also be a pointer). A Terse object is constructed by supplying it with uncompressed data or a
-stream that contains TRPX data
+stream that contains TRPX data.
 
 ## How to compile and run it
 
@@ -45,7 +45,7 @@ ___
 ```
 
 
-## ImageJ plugin for .trpx format files
+## Fiji/ImageJ plugin for .trpx format files
 
 ____
 
@@ -53,15 +53,15 @@ ____
 > For example, compile with:
 
 
-    Applications/Fiji.app/java/macosx/zulu8.60.0.21-ca-fx-jdk8.0.322-macosx_x64/jre/Contents/Home/bin/javac -cp /Applications/Fiji.app/jars/ij-1.53t.jar Terse_Reader.java
+    Applications/Fiji.app/java/macosx/zulu8.60.0.21-ca-fx-jdk8.0.322-macosx_x64/jre/Contents/Home/bin/javac -cp /Applications/Fiji.app/jars/ij-1.53t.jar TRPX_Reader.java
 
 > Then create the .jar files with:
 
-    Applications/Fiji.app/java/macosx/zulu8.60.0.21-ca-fx-jdk8.0.322-macosx_x64/jre/Contents/Home/bin/jar -cvf Terse_Reader.jar Terse_Reader*.class
+    Applications/Fiji.app/java/macosx/zulu8.60.0.21-ca-fx-jdk8.0.322-macosx_x64/jre/Contents/Home/bin/jar -cvf Terse_Reader.jar TRPX_Reader*.class
 
 > Then copy Terse_Reader.jar to the "plugins" directory of Fiji:
 
-    cp Terse_Reader.jar /Applications/Fiji.app/plugins/.
+    cp TRPX_Reader.jar /Applications/Fiji.app/plugins/.
 
 > Then restart Fiji, and Terse Reader is in the plugins menu.
 
