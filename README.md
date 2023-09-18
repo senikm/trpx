@@ -43,7 +43,9 @@ ___
 
     ./terse -help              // All available options will be printed
 ```
+## Documentation
 
+Check out our [Doxygen-generated documentation](https://[Senikm].github.io/[trpx]/).
 
 ## Fiji/ImageJ plugin for .trpx format files
 
