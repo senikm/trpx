@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['operator_20bool_0',['operator bool',['../classjpa_1_1_bit.html#a36df7073abddf8b5206173c28608b9a0',1,'jpa::Bit']]],
+  ['operator_20grey_5ftif_5fimage_3c_20t0_20_3e_1',['operator Grey_tif_image&lt; T0 &gt;',['../classjpa_1_1_grey__tif__image_3_01_t_01_4.html#a0c92efe9537a5f9ed339b17fea11bc5f',1,'jpa::Grey_tif_image&lt; T &gt;']]],
+  ['operator_20t_2',['operator T',['../classjpa_1_1_bit__range.html#aa6134c2bd66181e0353e95062b48f19f',1,'jpa::Bit_range']]],
+  ['operator_21_3d_3',['operator!=',['../classjpa_1_1_bit__pointer.html#a395ec2ede1b981ba91aef7b936a079b7',1,'jpa::Bit_pointer']]],
+  ['operator_26_4',['operator&amp;',['../classjpa_1_1_bit.html#a9037bdb94b3946d866706ba0014efe3e',1,'jpa::Bit']]],
+  ['operator_26_3d_5',['operator&amp;=',['../classjpa_1_1_bit.html#ae00e53842cfea6d055dc004f18f2ecc5',1,'jpa::Bit']]],
+  ['operator_2a_6',['operator*',['../classjpa_1_1_bit__pointer.html#a746ebd9f2b2d7e741451bc784a02070e',1,'jpa::Bit_pointer::operator*() const noexcept'],['../classjpa_1_1_bit__pointer.html#aaa2257fdb1cd5e17cca25fff143a8f94',1,'jpa::Bit_pointer::operator*() noexcept']]],
+  ['operator_2b_7',['operator+',['../classjpa_1_1_bit__pointer.html#a7597fbc8b56c6208aa3cd2a83111daa9',1,'jpa::Bit_pointer']]],
+  ['operator_2b_2b_8',['operator++',['../classjpa_1_1_bit__pointer.html#a3399f2bc109717bacd83ddd6eb53d1d5',1,'jpa::Bit_pointer::operator++()'],['../classjpa_1_1_bit__pointer.html#a7c102664a34664804e88cc496dbe97c7',1,'jpa::Bit_pointer::operator++(int) noexcept']]],
+  ['operator_2b_3d_9',['operator+=',['../classjpa_1_1_bit__pointer.html#a0b7f1a454f347c02f6e8180664d1ae34',1,'jpa::Bit_pointer']]],
+  ['operator_2d_10',['operator-',['../classjpa_1_1_bit__pointer.html#aaa7e55b87dcf46a546e9bc377ca1f01f',1,'jpa::Bit_pointer::operator-(std::ptrdiff_t const shift) const noexcept'],['../classjpa_1_1_bit__pointer.html#acaaca7dc66435d69ecff84b4e9a3f5aa',1,'jpa::Bit_pointer::operator-(Bit_pointer&lt; Iter &gt; const &amp;other) const noexcept']]],
+  ['operator_2d_2d_11',['operator--',['../classjpa_1_1_bit__pointer.html#a179865fe3535e04753dd8c61a146387d',1,'jpa::Bit_pointer::operator--()'],['../classjpa_1_1_bit__pointer.html#a99b92f74a601c234042e92d32b7e6a3f',1,'jpa::Bit_pointer::operator--(int) noexcept']]],
+  ['operator_2d_3d_12',['operator-=',['../classjpa_1_1_bit__pointer.html#aecf2ceabbddaf006e0d4bd0731b6ded0',1,'jpa::Bit_pointer']]],
+  ['operator_3c_13',['operator&lt;',['../classjpa_1_1_bit__pointer.html#a034a8dd31387a6d1a95f76cdb72687d8',1,'jpa::Bit_pointer']]],
+  ['operator_3c_3d_14',['operator&lt;=',['../classjpa_1_1_bit__pointer.html#af386b1041a1003f49a4d030239f86fef',1,'jpa::Bit_pointer']]],
+  ['operator_3d_15',['operator=',['../classjpa_1_1_bit__pointer.html#ae6deafbe0beb434a410ba8e69932a6f2',1,'jpa::Bit_pointer::operator=(Iter const other)'],['../classjpa_1_1_bit__pointer.html#aaccde352c03ccec1a771044c46cfd245',1,'jpa::Bit_pointer::operator=(Bit_pointer&lt; Iter &gt; const &amp;other)'],['../classjpa_1_1_bit.html#a1573ef811e321549a8121f1ce647fa00',1,'jpa::Bit::operator=(bool const b) const noexcept'],['../classjpa_1_1_bit.html#af45c5ff0212e8cc526d3f0f26a24c012',1,'jpa::Bit::operator=(Bit const &amp;other) const noexcept'],['../classjpa_1_1_bit__range.html#a4d7c7c1149de4a2480ebbabc87f5d209',1,'jpa::Bit_range::operator=()']]],
+  ['operator_3d_3d_16',['operator==',['../classjpa_1_1_bit__pointer.html#ac9ee4f74df05f13a359ed546a4c590c1',1,'jpa::Bit_pointer::operator==()'],['../structjpa_1_1_p_o_d__type__traits.html#a4d497da082df42f8a6c42b2b0fda048f',1,'jpa::POD_type_traits::operator==()']]],
+  ['operator_3e_17',['operator&gt;',['../classjpa_1_1_bit__pointer.html#abe1551fcec0adc5033d443f0435c4ee8',1,'jpa::Bit_pointer']]],
+  ['operator_3e_3d_18',['operator&gt;=',['../classjpa_1_1_bit__pointer.html#ad9d385ce44f0c64d0c3c3392840f051b',1,'jpa::Bit_pointer']]],
+  ['operator_5b_5d_19',['operator[]',['../classjpa_1_1_bit__pointer.html#a0f5ef555c0e6976a3319af59dba8bb2f',1,'jpa::Bit_pointer::operator[](std::ptrdiff_t const index) const noexcept'],['../classjpa_1_1_bit__pointer.html#a28e23a1c1d8ea81ce910c9310ad76698',1,'jpa::Bit_pointer::operator[](std::ptrdiff_t const index) noexcept']]],
+  ['operator_5e_3d_20',['operator^=',['../classjpa_1_1_bit.html#a46bf04bc91da6bdfab48ec43fa40972e',1,'jpa::Bit']]],
+  ['operator_7c_3d_21',['operator|=',['../classjpa_1_1_bit.html#a88757381d70c6416aa994acc8eb3ad42',1,'jpa::Bit::operator|=()'],['../classjpa_1_1_bit__range.html#a858931522e307ecba95d34e876a26669',1,'jpa::Bit_range::operator|=()']]],
+  ['option_22',['option',['../classjpa_1_1_command__line.html#a19755865e737fcb7290030c9eaea3532',1,'jpa::Command_line']]]
+];

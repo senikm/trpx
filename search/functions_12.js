@@ -1,0 +1,4 @@
+var searchData=
+[
+  ['xml_5felement_0',['xml_element',['../classjpa_1_1_x_m_l__element.html#a621638c369d687eb04005fee61aca77f',1,'jpa::XML_element::XML_element(std::istream &amp;&amp;istr, std::string const &amp;tag)'],['../classjpa_1_1_x_m_l__element.html#a732d1fb9a362e729836d870b03575afa',1,'jpa::XML_element::XML_element(std::istream &amp;istr, std::string const &amp;tag)'],['../classjpa_1_1_x_m_l__element.html#a6131d3b81c56814135342692aad8208b',1,'jpa::XML_element::XML_element(std::string const &amp;xml_string, std::string const &amp;tag)'],['../classjpa_1_1_x_m_l__element.html#add45c1577269dd33a049a22bd9c2c153',1,'jpa::XML_element::XML_element(std::istream &amp;&amp;istr)'],['../classjpa_1_1_x_m_l__element.html#ac6398c62ec55c27f7b723d9b152a8537',1,'jpa::XML_element::XML_element(std::istream &amp;istr)'],['../classjpa_1_1_x_m_l__element.html#a400758162bdf5c4b9a961b987b5272c2',1,'jpa::XML_element::XML_element(std::string const &amp;xml_string)']]]
+];
