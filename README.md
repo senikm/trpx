@@ -42,10 +42,16 @@ ___
     ./prolix ˜/dir/frame*.trpx   // expands all trpx files in the directory ~/dir that start with frame\n"
 
     ./terse -help              // All available options will be printed
+    
 ```
+
+
+
 ## Documentation
 
-Check out our [Doxygen-generated documentation](https://[Senikm].github.io/[trpx]/).
+[![Doxygen Docs](https://img.shields.io/badge/documentation-Doxygen-blue.svg)](https://senikm.github.io/trpx/)
+
+
 
 ## Fiji/ImageJ plugin for .trpx format files
 
