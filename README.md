@@ -24,38 +24,41 @@ ___
     cmake ..
     make 
 ```
-
+---
 
 ### Running compression and decompression
 
-___
 
-> Compression and decompression
+> Compression
 ``` c++
 
     ./terse *                   // all tiff files in this directory are compressed to trpx files 
     
-    ./prolix *                  // all trpx files are expanded to tiff files
-
     ./terse ˜/dir/frame*.tiff  // compresses all tiff files in the directory ~/dir that start with frame\n"
+    
+    ./terse -help              // All available options will be printed
+``` 
+
+> Decompression
+
+```c++
+    ./prolix *                  // all trpx files are expanded to tiff files
 
     ./prolix ˜/dir/frame*.trpx   // expands all trpx files in the directory ~/dir that start with frame\n"
 
-    ./terse -help              // All available options will be printed
-    
+
 ```
 
-
+---
 
 ## Documentation
 
 [![Doxygen Docs](https://img.shields.io/badge/documentation-Doxygen-blue.svg)](https://senikm.github.io/trpx/)
 
-
+---
 
 ## Fiji/ImageJ plugin for .trpx format files
 
-____
 
 > For compilation, use the java version that came with Fiji, to ensure java compatibility. Also make sure the ij-1.??.jar package is included in the compilation:
 > For example, compile with:
@@ -73,9 +76,8 @@ ____
 
 > Then restart Fiji, and Terse Reader is in the plugins menu.
 
-
+---
 ## Citation
-____
 
 **If you use our software in your research, please cite our paper using the following BibTeX entry**:
 
@@ -94,9 +96,11 @@ ____
 }
  
 
-``` 
-## Test dataset:
+```
+---
+## Test dataset
 
-___
+Explore our test dataset [here.](https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing)
 
-https://drive.google.com/drive/folders/16UVHtia6GAK9WFO3RtO32tImhSlgdxEd?usp=sharing
+
+---
