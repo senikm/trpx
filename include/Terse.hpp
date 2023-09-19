@@ -277,7 +277,7 @@ public:
      * @param istream The input stream containing Terse data.
      */
     Terse(std::ifstream& istream) : Terse(istream, XML_element(istream, "Terse")) {};
-    
+ 
     /**
      * @brief Adds another frame to the Terse object. The new frame is defined by its begin iterator and size.
      *
@@ -312,7 +312,7 @@ public:
     template <typename Container> requires requires (Container& c) {c.begin(), c.end(), c.size();}
     void push_back(Container const& data) {
         if constexpr(requires (Container &c) {c.dim();}) {
-            for (int i = 0; i != d_dim.size(); ++i)
+            for (int i = 0; i != data.dim().size(); ++i)
                 if (number_of_frames() == 0)
                     d_dim.push_back(data.dim()[i]);
                 else
