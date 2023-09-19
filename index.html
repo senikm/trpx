@@ -13,6 +13,23 @@
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
+
+ <style>
+  .additional-info {
+   margin: 20px 0;
+   font-size: 0.9em;
+   padding: 15px;
+   background-color: #f5f5f5; /* This gives a subtle background */
+   border-radius: 5px;
+  }
+  .additional-info p {
+   margin-bottom: 15px;
+  }
+  .additional-info a {
+   color: #0076b6; /* Change color according to your design preference */
+   text-decoration: none;
+  }
+ </style>
 </head>
 <body>
 <div id="top"><!-- do not remove this div, it is closed by doxygen! -->
@@ -72,6 +89,12 @@ $(function() {
 <div class="header">
   <div class="headertitle"><div class="title">TRPX Documentation</div></div>
 </div><!--header-->
+
+<div class="additional-info">
+ <p>TRPX is an efficient compression and decompression algorithm for diffraction data.</p>
+ <p>TRPX allows efficient and fast compression of integral diffraction data and other integral grey scale data (cryo-EM) into a Terse object that can be decoded by the member function Terse::prolix(iterator). The prolix(iterator) member function decompresses the data starting at the location defined by 'iterator' (which can also be a pointer). A Terse object is constructed by supplying it with uncompressed data or a stream that contains TRPX data.</p>
+ <p>Learn more and access the code on <a href="https://github.com/Senikm/trpx" target="_blank">GitHub</a>.</p>
+</div>
 <div class="contents">
 </div><!-- contents -->
 <!-- start footer part -->
