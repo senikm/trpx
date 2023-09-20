@@ -820,14 +820,14 @@ private:
     constexpr std::uint32_t f_int32(std::byte* &cursor) {
         std::uint32_t& r = reinterpret_cast<std::uint32_t&>(*cursor);
         cursor += 4;
-        return NATIVE ? r : (r << 24) | ((r & 0xff00) << 8) | ((r >> 8) & 0xff00) | (r >> 24);
+        return NATIVE ? r : r = (r << 24) | ((r & 0xff00) << 8) | ((r >> 8) & 0xff00) | (r >> 24);
     }
     
     template <bool NATIVE>
     constexpr std::uint64_t f_int64(std::byte* &cursor) {
         std::uint64_t& r = reinterpret_cast<std::uint64_t&>(*cursor);
         cursor += 8;
-        return NATIVE ? r : ((r << 56) | ((r & 0xff00) << 40) | ((r & 0xff0000) << 24) | ((r & 0xff000000) << 8) |
+        return NATIVE ? r : r = ((r << 56) | ((r & 0xff00) << 40) | ((r & 0xff0000) << 24) | ((r & 0xff000000) << 8) |
                              ((r >> 8) & 0xff000000) | ((r >> 24) & 0xff0000) | ((r >> 40) & 0xff00) | (r >> 56));
     }
 };
