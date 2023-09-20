@@ -3,13 +3,18 @@
 ___
 
 
-TRPX is an *efficient compression and decompression* algorithm for *diffraction data*.
+TRPX is an *efficient compression and decompression* algorithm for *diffraction data* 
 
-TRPX allows efficient and fast compression of integral diffraction data and other integral grey scale
+---
+
+**TRPX achieves at least 85% reduction in diffraction data  file size while processing up to 2000 512 * 512 frames/s**.
+>It allows efficient and fast compression of integral diffraction data and other integral grey scale
 data *(cryo-EM)* into a Terse object that can be decoded by the member function Terse<T>::prolix(iterator). The
 prolix(iterator) member function decompresses the data starting at the location defined by 'iterator'
 (which can also be a pointer). A Terse object is constructed by supplying it with uncompressed data or a
 stream that contains TRPX data.
+> 
+> ![TRPX workflow](images/terse.png)
 
 ## How to compile and run it
 
