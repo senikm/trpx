@@ -204,6 +204,26 @@ public:
      * @return A reference to the pixel value at the specified indices.
      */
     constexpr auto      & operator [] (std::size_t i0, std::size_t i1)       noexcept { return (*this)[d_dim[0] * i0 + i1]; }
+
+    /**
+     * @brief Accessor for image data using one-dimensional subscripting.
+     *
+     * Allows read-only access to individual pixel values within the TIFF images using single dimenion subscripting without bounds checking.
+     *
+     * @param i0 The first dimension index.
+     * @return A reference to the pixel value at the specified indices.
+     */
+    constexpr auto const& operator [] (std::size_t i0) const noexcept {return std::span<T>::operator[](i0);}
+
+    /**
+     * @brief Accessor for image data using one-dimensional subscripting.
+     *
+     * Allows read/write access to individual pixel values within the TIFF images using single dimenion subscripting without bounds checking.
+     *
+     * @param i0 The first dimension index.
+     * @return A reference to the pixel value at the specified indices.
+     */
+    constexpr auto      & operator [] (std::size_t i0) noexcept {return std::span<T>::operator[](i0);}
 #endif
     
     /**
