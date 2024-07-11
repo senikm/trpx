@@ -33,7 +33,7 @@ namespace jpa {
  * - Compact code, optimized for high-speed performance and minimal memory foorprint.
  * - Accommodating images with varying types and sizes.
  * - Support for signed and unsigned integral values, and float and double values.
- * - Flexible bit depths: 8, 16, 32, or (four double precision values) 64 bits.
+ * - Flexible bit depths: 8, 16, 32, or (for double precision values) 64 bits.
  * - Accomodates raw TIFF data with runtinme pixel type identification.
  * - Allows regularizing pixel types to a compile-time determined type.
  * - The first (or only) image managed by a Grey_tif object is directly available as a readonly std::span
@@ -242,7 +242,7 @@ public:
     POD_type_traits const& type() const noexcept {return d_image_type;}
     
 private:
-    Grey_tif_image(POD_type_traits const& image_type, std::array<long,2> const& dim, std::span<T> const& data) noexcept :
+    Grey_tif_image(POD_type_traits const& image_type, std::array<long,2> const& dim, std::span<T> const& data) :
     std::span<T>(data),
     d_image_type(image_type),
     d_dim(dim) {}
@@ -308,7 +308,7 @@ public:
     }
     
 private:
-    Grey_tif_image(POD_type_traits const& image_type, std::array<long,2> const& dim, std::span<T> const& data) noexcept :
+    Grey_tif_image(POD_type_traits const& image_type, std::array<long,2> const& dim, std::span<T> const& data) :
     d_data(reinterpret_cast<T*>(&data.begin()[0])),
     d_image_type(image_type),
     d_dim(dim) { }
@@ -361,7 +361,7 @@ public:
      *
      * @param is The input stream containing TIFF data.
      */
-    Grey_tif(std::istream& is) noexcept : Grey_tif() {
+    Grey_tif(std::istream& is) : Grey_tif() {
         is.seekg(0, std::ios::end);
         std::streampos fileSize = is.tellg();
         is.seekg(0, std::ios::beg);
@@ -381,7 +381,7 @@ public:
      * @param other The Grey_tif object to be swapped.
      */
     template <typename Tother>
-    void swap(Grey_tif<Tother>&& other) noexcept {
+    void swap(Grey_tif<Tother>&& other) {
         d_last_ifd_offset = other.d_last_ifd_offset = 4;
          std::swap(d_tif, other.d_tif);
         f_scan_images();
@@ -401,7 +401,7 @@ public:
      * @param other The Grey_tif object to be swapped.
      */
     template <typename Tother>
-    void swap(Grey_tif<Tother>& other) noexcept { swap(std::move(other)); }
+    void swap(Grey_tif<Tother>& other) { swap(std::move(other)); }
     
     /**
      * @brief Read/write accessor to images from a single or multi-image Grey_tif object.
@@ -528,8 +528,8 @@ public:
             reinterpret_cast<std::uint32_t&>(d_tif[d_last_ifd_offset]) = index;
             reinterpret_cast<std::uint16_t&>(d_tif[index]) = 7;
             index += 2;
-            f_set_ifd(index, 0x0100, 3, static_cast<uint32_t>(dim[0]));
-            f_set_ifd(index, 0x0101, 3, static_cast<uint32_t>(dim[1]));
+            f_set_ifd(index, 0x0100, 3, static_cast<uint32_t>(dim[1]));
+            f_set_ifd(index, 0x0101, 3, static_cast<uint32_t>(dim[0]));
             f_set_ifd(index, 0x0102, 3, 8 * (std::is_same_v<std::byte, T> ? sizeof(CT) : sizeof(T)));
             f_set_ifd(index, 0x0103, 3, 1);
             f_set_ifd(index, 0x0106, 3, 1);
@@ -708,7 +708,8 @@ private:
     }
     
     template <bool NATIVE = true>
-    void f_make_Image(std::uint32_t& index) noexcept {
+    void f_make_Image(std::uint32_t& index) {
+        bool compatible_tif = true;
         std::array<long,2> dim = {0,0};
         std::size_t bits_per_pixel = 0;
         std::byte* cursor = d_tif.data() + index;
@@ -754,15 +755,23 @@ private:
             else if (tag == 0x0102 ) {
                 if ((val == 8 || val == 16 || val == 32 || val == 64))
                     bits_per_pixel = val;
-                else
+                else {
                     std::cerr << "Warning: Grey_tif can only read greyscale tiff files with 8-, 16-, 32-, or 64-bit pixels" << std::endl;
+                    compatible_tif = false;
+                }
             }
-            else if (tag == 0x0103 && val != 1)
+            else if (tag == 0x0103 && val != 1) {
                 std::cerr << "Warning: Grey_tif cannot read compressed tiff files"<< std::endl;
-            else if (tag == 0x0106 && val > 1)
+                compatible_tif = false;
+            }
+            else if (tag == 0x0106 && val > 1) {
                 std::cerr << "Warning: Grey_tif cannot read colour tiff files"<< std::endl;
-            else if ((tag == 0x0107 || tag == 0x0108 || tag == 0x0109 || tag == 0x010A) && val != 1)
+                compatible_tif = false;
+            }
+            else if ((tag == 0x0107 || tag == 0x0108 || tag == 0x0109 || tag == 0x010A) && val != 1) {
                 std::cerr << "Warning: Grey_tif cannot read black & white tiff files"<< std::endl;
+                compatible_tif = false;
+            }
             else if (tag == 0x0111) {
                 if (count == 1) strip_offsets[0] = val;
                 else {
@@ -772,8 +781,10 @@ private:
                         strip_offsets[i] = f_int32<NATIVE>(p);
                 }
             }
-            else if (tag == 0x0115 && val != 1)
+            else if (tag == 0x0115 && val != 1) {
                 std::cerr << "Warning: Grey_tif cannot read RGB colour tiff files"<< std::endl;
+                compatible_tif = false;
+            }
             else if (tag == 0x0116) rows_per_strip = val;
             else if (tag == 0x0117) {
                 if (count == 1) strip_byte_counts[0] = val;
@@ -793,8 +804,11 @@ private:
             if (strip_byte_counts[i] != strip_offsets[i + 1] - strip_offsets[i]) {
                 std::cerr << "Warning: Grey_tif cannot read tiff files with non-consecutive strips" << std::endl;
                 std::cerr << "         most likely the tiff file is corrupted" << std::endl;
+                compatible_tif = false;
                 break;
             }
+        if (!compatible_tif) 
+            throw std::runtime_error("Incompatible TIFF file\n");
         d_last_ifd_offset = static_cast<std::uint32_t>(cursor - d_tif.data());
         index = f_int32<NATIVE>(cursor);
         if constexpr (!NATIVE) {

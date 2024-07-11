@@ -42,64 +42,54 @@ int main(int argc, char const* argv[]) {
     
     // Loop over all input file names
     for (fs::path tif_filename : input.params()) {
-        
-        // Only tif files will be compressed
         if (fs::is_regular_file(tif_filename) && (tif_filename.extension() == ".tiff" ||
                                                   tif_filename.extension() == ".tif" ||
                                                   tif_filename.extension() == ".TIFF" ||
                                                   tif_filename.extension() == ".TIF")) {
+            try {
+                auto start_IO_time = std::chrono::high_resolution_clock::now();
+                std::ifstream tif_file(tif_filename, std::ios::binary);
+                if (!tif_file.is_open()) {
+                    std::cerr << "Failed to open input file " << tif_filename << std::endl;
+                    continue; // Skip to next file
+                }
 
-            // Start the IO timer and open the next file
-            auto start_IO_time = std::chrono::high_resolution_clock::now();
-            std::ifstream tif_file(tif_filename, std::ios::binary);
-            if (!tif_file.is_open())
-                std::cerr << "Failed to open input file " << tif_filename << std::endl;
-            else {
-                
-                // A tiff file was opened. Read its data. It may contain one or more images in a stack.
                 jpa::Grey_tif<std::byte> tif_data(tif_file);
                 tif_file.close();
-                    
+
                 total_tiff_size += tif_data.raw_data_size();
-                
-                // stop the IO timer, start the user timer
-                IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
                 auto start_user_time = std::chrono::high_resolution_clock::now();
-                
+
                 Terse compressed;
-                
-                for (int i = 0; i != tif_data.image_stack_size(); ++i)
-                    if (tif_data.dim() == tif_data.image(i).dim())
-                        Terse_pushback(compressed, tif_data.image(i));
-                    else {
-                        std::cerr << "Tiff file " << tif_filename << " contains a stack of images with varying sizes." <<  std::endl;
-                        std::cerr << "Terse cannot process such tiff-stacks. First unstack this tiff file and compress the images separately." << std::endl;
-                        return 0;
+                for (int i = 0; i != tif_data.image_stack_size(); ++i) {
+                    if (tif_data.dim() != tif_data.image(i).dim()) {
+                        throw std::runtime_error("TIFF file contains a stack of images with varying sizes.");
                     }
-                 total_trpx_size += compressed.terse_size();
-                
-                // Stop the user timer, start the IO timer
-                user_time += std::chrono::high_resolution_clock::now() - start_user_time;
-                start_IO_time = std::chrono::high_resolution_clock::now();
-                
-                // Write the compressed data to the trpx file
-                auto trpx_filename = tif_filename;
-                std::ofstream trpx_file(trpx_filename.replace_extension(".trpx"), std::ios::binary);
-                if (!trpx_file.is_open())
-                    std::cerr << "Failed to open trpx file " << trpx_filename << std::endl;
-                else {
-                    compressed.write(trpx_file);
-                    trpx_file.close();
-                    fs::remove(tif_filename);
-                    ++compressed_files;
+                    Terse_pushback(compressed, tif_data.image(i));
                 }
+                total_trpx_size += compressed.terse_size();
+
+                fs::path trpx_filename = tif_filename;
+                trpx_filename.replace_extension(".trpx");
+                std::ofstream trpx_file(trpx_filename, std::ios::binary);
+                if (!trpx_file.is_open()) {
+                    throw std::runtime_error("Failed to open trpx file for output.");
+                }
+                
+                compressed.write(trpx_file);
+                trpx_file.close();
+                std::cout << "Deleting original TIFF file: " << tif_filename << std::endl;
+                fs::remove(tif_filename);
+                ++compressed_files;
+
+                auto end_user_time = std::chrono::high_resolution_clock::now();
+                user_time += end_user_time - start_user_time;
+                IO_time += start_user_time - start_IO_time;
+            } catch (const std::exception& e) {
+                std::cerr << "Error processing " << tif_filename << ": " << e.what() << std::endl;
             }
-            
-            // stop the IO timer
-            IO_time += std::chrono::high_resolution_clock::now() - start_IO_time;
         }
     }
-    
     // If required, provide verbose output
     if (input.option("-verbose").found()) {
         for (fs::path tif_filename : input.params()) 

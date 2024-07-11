@@ -69,25 +69,25 @@ int main(int argc, char const* argv[]) {
                 if (trpx_data.bits_per_val() <= 16 && trpx_data.is_signed()) {
                     for (int i = 0; i != trpx_data.number_of_frames(); ++i) {
                         tif_data.push_back<std::int16_t>(dim);
-                        trpx_data.prolix(tif_data.image<std::int16_t>(i));
+                        trpx_data.prolix(tif_data.image<std::int16_t>(i), i);
                     }
                 }
                 else if (trpx_data.bits_per_val() <= 16 && !trpx_data.is_signed()) {
                     for (int i = 0; i != trpx_data.number_of_frames(); ++i) {
                         tif_data.push_back<std::uint16_t>(dim);
-                        trpx_data.prolix(tif_data.image<std::uint16_t>(i));
+                        trpx_data.prolix(tif_data.image<std::uint16_t>(i), i);
                     }
                 }
                 else if (trpx_data.bits_per_val() <= 32 && trpx_data.is_signed()) {
                     for (int i = 0; i != trpx_data.number_of_frames(); ++i) {
                         tif_data.push_back<std::int32_t>(dim);
-                        trpx_data.prolix(tif_data.image<std::int16_t>(i));
+                        trpx_data.prolix(tif_data.image<std::int16_t>(i), i);
                     }
                 }
                 else if (trpx_data.bits_per_val() <= 32 && !trpx_data.is_signed()) {
                     for (int i = 0; i != trpx_data.number_of_frames(); ++i) {
                         tif_data.push_back<std::uint32_t>(dim);
-                        trpx_data.prolix(tif_data.image<std::uint16_t>(i));
+                        trpx_data.prolix(tif_data.image<std::uint16_t>(i), i);
                     }
                 }
                 else {
