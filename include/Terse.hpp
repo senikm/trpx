@@ -110,7 +110,7 @@
 //      Unpacks the Terse data, storing it from the location defined by 'begin'. Terse integral signed data cannot be
 //      unpacked into integral unsigned data. Terse data cannot be decompressed into elements that are smaller
 //      in bits than bits_per_val(), but can be decompressed into larger values. Terse data can always be unpacked
-//      into signed intergral, double and float data and will have the correct sign (with one exception: an
+//      into signed integral, double and float data and will have the correct sign (with one exception: an
 //      unsigned overflowed - all 1's - value will be unpacked as -1 signed value. As all other values are positive
 //      in this case, such a situation is easy to recognise).
 //  void prolix(container_type& container)
@@ -251,7 +251,7 @@ public:
         if constexpr(requires (Container &c) {c.dim();})
             for (auto d : data.dim()) d_dim.push_back(d);
     };
-    
+
     /**
      * @brief Creates a Terse object given a starting iterator or pointer and the number of elements that need to be encoded.
      *
@@ -261,7 +261,7 @@ public:
      * @param block The block size for compression (default is 12).
      */
     template <typename Iterator>
-    Terse(Iterator const data, size_t const size, unsigned int const block=12) :
+    Terse(Iterator const data, size_t const size, unsigned int const block=4) :
     d_signed(std::is_signed_v<typename std::iterator_traits<Iterator>::value_type>),
     d_block(block),
     d_size(size) {
@@ -475,7 +475,7 @@ public:
     
 private:
     bool d_signed;
-    unsigned const d_block = 12;
+    unsigned const d_block = 8;
     std::size_t d_size;
     unsigned d_prolix_bits = 0;
     std::vector<std::size_t> d_dim;
@@ -503,13 +503,13 @@ private:
         d_terse_data.resize(prev_data_size + std::ceil(d_size * (sizeof(decltype(*data)) + (long double)(12.0) / (d_block * 8)) / sizeof(std::uint8_t)), 0);
         Bit_pointer bitp (d_terse_data.data() + prev_data_size);
         int prevbits = 0;
-        for (size_t from = 0; from < d_size; from += d_block) {
-            auto const to = std::min(d_size, from + d_block);
+        for (size_t from = 0; from < d_size; from += d_block) {  //outer loop over blocks
+            auto const to = std::min(d_size, from + d_block);  //	to = std::min(262,144, 24) → to = 24
             typename std::iterator_traits<Iterator>::value_type setbits(0);
             auto p = data;
             for (auto i = from; i != to; ++i, ++p)
                 if constexpr (std::is_unsigned_v<decltype(setbits)>)
-                    setbits |= *p;
+                    setbits |= *p; 
                 else if constexpr (std::is_signed_v<decltype(setbits)>)
                     setbits |= std::abs(*p);
             unsigned significant_bits = f_highest_set_bit(setbits);

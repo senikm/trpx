@@ -4,7 +4,6 @@ project(compression_app)
 
 ##########################################################
 #  test
-#
 
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -15,14 +14,12 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
 
 ##########################################################
 #  Paths
-#
 
 set(TERSE_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 
 ##########################################################
 #  sources/binaries
-#
 
 add_subdirectory(src)
 
@@ -31,7 +28,6 @@ add_subdirectory(src)
 
 ##########################################################
 #  test
-#
 
 add_subdirectory(test)
 
